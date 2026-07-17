@@ -1,0 +1,155 @@
+---
+// One "what we're building" pillar: editorial copy on one side, a phone
+// design-preview on the other, sides alternating down the page. The visual is
+// slotted (a PhoneFrame + mock screen).
+import StarGlyph from './StarGlyph.astro';
+
+interface Props {
+  index: string;
+  eyebrow: string;
+  title: string;
+  body: string;
+  points: string[];
+  /** When true, the visual sits on the left (odd pillars). */
+  flip?: boolean;
+}
+const { index, eyebrow, title, body, points, flip = false } = Astro.props;
+---
+
+<section class:list={['pillar', { flip }]}>
+  <div class="wrap pillar-inner">
+    <div class="pillar-copy reveal">
+      <div class="pillar-eyebrow">
+        <span class="pillar-num">{index}</span>
+        <span class="eyebrow">{eyebrow}</span>
+      </div>
+      <h3>{title}</h3>
+      <p class="pillar-lede">{body}</p>
+      <ul class="pillar-points">
+        {
+          points.map((p) => (
+            <li>
+              <StarGlyph class="star-sm pt-star" />
+              <span set:html={p} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="pillar-visual reveal">
+      <div class="pillar-glow" aria-hidden="true"></div>
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .pillar {
+    padding-block: clamp(var(--space-4xl), 5vw, var(--space-6xl));
+  }
+
+  .pillar-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: clamp(var(--space-2xl), 5vw, calc(var(--space-6xl) + var(--space-xl)));
+  }
+
+  .pillar.flip .pillar-copy {
+    order: 2;
+  }
+
+  .pillar-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .pillar-num {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: var(--text-title-medium-size);
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pillar h3 {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-display-small-weight);
+    font-size: clamp(var(--text-headline-medium-size), 2vw + 1rem, var(--text-display-small-size));
+    line-height: var(--text-headline-large-line-height);
+    letter-spacing: var(--text-display-large-tracking);
+    color: var(--color-on-background);
+    margin-top: var(--space-base);
+    text-wrap: balance;
+  }
+
+  .pillar-lede {
+    margin-top: var(--space-base);
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-large-size);
+    max-width: 46ch;
+  }
+
+  .pillar-points {
+    margin-top: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .pillar-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+  }
+
+  .pillar-points :global(.pt-star) {
+    margin-top: 3px;
+  }
+
+  .pillar-points :global(strong) {
+    color: var(--color-on-background);
+    font-weight: 700;
+  }
+
+  .pillar-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pillar-glow {
+    position: absolute;
+    inset: 8% 12%;
+    z-index: 0;
+    background: radial-gradient(
+      60% 50% at 50% 45%,
+      color-mix(in srgb, var(--color-primary) 22%, transparent),
+      transparent 70%
+    );
+    filter: blur(38px);
+  }
+
+  .pillar-visual > :global(.phone-fig) {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 52rem) {
+    .pillar-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-3xl);
+    }
+
+    .pillar.flip .pillar-copy {
+      order: 0;
+    }
+
+    .pillar-copy {
+      order: 0;
+    }
+  }
+</style>

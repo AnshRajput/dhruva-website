@@ -1,0 +1,28 @@
+---
+// Voice — speech in, speech out, real turn-taking (VAD, interruption).
+import StarGlyph from '../StarGlyph.astro';
+
+// Deterministic waveform bar heights (px), read as live audio without JS.
+const bars = [8, 14, 20, 12, 22, 16, 10, 18, 24, 14, 9, 17, 21, 12, 7];
+---
+
+<div class="mk-appbar">
+  <span class="mk-back">‹</span>
+  <span class="mk-chip">Voice · listening</span>
+</div>
+
+<div class="mk-voice">
+  <div class="mk-orb"><StarGlyph class="mk-star" /></div>
+  <div class="mk-wave" aria-hidden="true">
+    {bars.map((h) => <i style={`height:${h}px`}></i>)}
+  </div>
+  <div style="text-align:center;">
+    <div class="mk-sub" style="color:var(--color-on-surface);">“What’s a good three-day trek near me?”</div>
+    <div class="mk-meta" style="align-self:center; margin-top:6px;"><span>your turn · tap to interrupt</span></div>
+  </div>
+</div>
+
+<div class="mk-trust">
+  <StarGlyph class="mk-star" />
+  <span>STT + TTS on-device</span>
+</div>

@@ -1,0 +1,28 @@
+---
+// Image generation — quantized Stable Diffusion, entirely on device.
+import StarGlyph from '../StarGlyph.astro';
+import BottomNav from './BottomNav.astro';
+---
+
+<div class="mk-appbar">
+  <span class="mk-title">Imagine</span>
+  <span class="mk-spacer"></span>
+  <span class="mk-chip">SD · Q4</span>
+</div>
+
+<div class="mk-body">
+  <div class="mk-canvas"></div>
+
+  <div class="mk-rowcard">
+    <div class="mk-eyebrow">Prompt</div>
+    <div class="mk-sub" style="color:var(--color-on-surface);">a lone pole star over a still mountain lake, warm gold, editorial</div>
+  </div>
+
+  <div style="display:flex; align-items:center; gap:6px;">
+    <StarGlyph class="star-xs" />
+    <span class="mk-sub">Generating · step 18 / 24</span>
+  </div>
+  <div class="mk-progress"><span style="width:75%"></span></div>
+</div>
+
+<BottomNav active="you" />

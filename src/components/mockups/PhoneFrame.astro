@@ -1,0 +1,74 @@
+---
+// Reusable device frame for honest "design preview" mocks. Renders a phone
+// shell (bezel from the midnight ramp), an offline-honest status bar, the
+// slotted screen, and a mandatory "Design preview" caption so nobody mistakes
+// a mock for a screenshot. Styling lives in src/styles/mock.css (token-driven).
+import '../../styles/mock.css';
+import StarGlyph from '../StarGlyph.astro';
+
+interface Props {
+  /** Short label describing the mocked screen, for the caption + a11y. */
+  label: string;
+  /** Status-bar clock. Defaults to a calm, non-load-bearing time. */
+  clock?: string;
+}
+const { label, clock = '9:41' } = Astro.props;
+---
+
+<figure class="phone-fig">
+  <div class="phone">
+    <div class="phone-screen" role="img" aria-label={`Design preview: ${label}`}>
+      <div class="mk-status" aria-hidden="true">
+        <span>{clock}</span>
+        <span class="mk-status-right">
+          <!-- airplane mode: these mocks are all offline -->
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.5v-2l-8-4.5V4.5a1.5 1.5 0 0 0-3 0V10l-8 4.5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L14 19v-5l8 2.5Z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13a9 9 0 0 1 18 0M6.5 16a5 5 0 0 1 11 0M12 19h.01"/></svg>
+          <svg viewBox="0 0 26 24" fill="currentColor"><rect x="1" y="7" width="20" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="9" width="14" height="6" rx="1"/><rect x="22" y="10" width="2" height="4" rx="1"/></svg>
+        </span>
+      </div>
+      <slot />
+    </div>
+  </div>
+  <figcaption class="phone-cap">
+    <StarGlyph class="star-xs" />
+    <span>Design preview</span>
+    <span class="cap-sep">·</span>
+    <span class="cap-label">{label}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .phone-fig {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-base);
+  }
+
+  .phone-cap {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-outline-variant);
+    background: color-mix(in srgb, var(--color-surface) 45%, transparent);
+    font-size: var(--text-label-small-size);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+  }
+
+  .cap-sep {
+    opacity: 0.5;
+  }
+
+  .cap-label {
+    color: var(--color-secondary);
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+</style>

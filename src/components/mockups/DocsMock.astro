@@ -1,0 +1,33 @@
+---
+// Chat with documents — drop a PDF, retrieve + answer with on-device
+// embeddings (All-MiniLM). Answer cites the page it came from.
+---
+
+<div class="mk-appbar">
+  <span class="mk-back">‹</span>
+  <span class="mk-chip">lease-agreement.pdf</span>
+  <span class="mk-spacer"></span>
+  <span class="mk-chip">14 pages</span>
+</div>
+
+<div class="mk-body">
+  <div class="mk-rowcard" style="display:flex; gap:8px; align-items:center;">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--color-secondary)" stroke-width="1.6" aria-hidden="true"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 13h6M9 17h6"/></svg>
+    <div>
+      <div class="mk-name">Indexed locally</div>
+      <div class="mk-sub">384-dim embeddings · nothing left the device</div>
+    </div>
+  </div>
+
+  <div class="mk-bubble user" style="align-self:flex-end;">When can the landlord raise the rent?</div>
+  <div class="mk-bubble bot">
+    Only at renewal, with 60 days’ written notice, capped at 5% a year.
+    <div class="mk-mono" style="margin-top:6px; color:var(--color-secondary);">↳ cited: page 7, §4.2</div>
+  </div>
+  <div class="mk-meta"><span>retrieved 3 passages · 0.2s</span></div>
+</div>
+
+<div class="mk-composer">
+  <span class="mk-field">Ask this document…</span>
+  <span class="mk-send"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3l18 9-18 9 4-9-4-9z"/></svg></span>
+</div>

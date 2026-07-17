@@ -1,0 +1,45 @@
+---
+// Model playground + AI news (new, Loop 10.5). Run one prompt across two
+// models side by side, tune sampling live, and read an opt-in on-device news
+// digest. All offline; news is fetched only when the user asks for it.
+import BottomNav from './BottomNav.astro';
+---
+
+<div class="mk-appbar">
+  <span class="mk-title">Playground</span>
+  <span class="mk-spacer"></span>
+  <span class="mk-chip">A / B</span>
+</div>
+
+<div class="mk-body">
+  <div class="mk-tabs">
+    <span class="mk-tab on">Playground</span>
+    <span class="mk-tab">AI news</span>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:7px;">
+    <div class="mk-rowcard">
+      <div class="mk-mono" style="color:var(--color-primary);">Llama-3.2-1B</div>
+      <div class="mk-sub" style="color:var(--color-on-surface);">Crisp and literal. 41 tok/s.</div>
+    </div>
+    <div class="mk-rowcard">
+      <div class="mk-mono" style="color:var(--color-secondary);">Qwen2.5-1.5B</div>
+      <div class="mk-sub" style="color:var(--color-on-surface);">Warmer, more detail. 33 tok/s.</div>
+    </div>
+  </div>
+
+  <div class="mk-slider">
+    <div class="mk-slider-top"><span>Temperature</span><b>0.80</b></div>
+    <div class="mk-track" style="--knob:40%;"><span style="width:40%"></span></div>
+  </div>
+
+  <div class="mk-news">
+    <span class="mk-news-rail"></span>
+    <div>
+      <div class="mk-name">This week in on-device AI</div>
+      <div class="mk-sub">3 new sub-2B GGUF releases worth trying · opt-in digest</div>
+    </div>
+  </div>
+</div>
+
+<BottomNav active="you" />

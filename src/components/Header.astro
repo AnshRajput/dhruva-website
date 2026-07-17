@@ -7,6 +7,7 @@ const path = Astro.url.pathname;
 const links = [
   { href: `${base}`, label: 'Home' },
   { href: `${base}models/`, label: 'Models' },
+  { href: `${base}build/`, label: 'Build' },
   { href: `${base}privacy/`, label: 'Privacy' },
   { href: `${base}docs/`, label: 'Docs' },
 ];
@@ -24,7 +25,7 @@ function isActive(href: string) {
       <span class="wordmark">Dhruva</span>
     </a>
 
-    <nav aria-label="Primary">
+    <nav id="primary-nav" class="nav" aria-label="Primary">
       <ul>
         {
           links.map((link) => (
@@ -46,6 +47,16 @@ function isActive(href: string) {
         />
       </svg>
     </a>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      aria-label="Menu"
+      aria-controls="primary-nav"
+      aria-expanded="false"
+    >
+      <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
+    </button>
   </div>
 </header>
 
@@ -54,8 +65,8 @@ function isActive(href: string) {
     position: sticky;
     top: 0;
     z-index: 40;
-    background: color-mix(in srgb, var(--color-background) 88%, transparent);
-    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--color-background) 82%, transparent);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-outline-variant);
   }
 
@@ -82,23 +93,13 @@ function isActive(href: string) {
     color: var(--color-on-background);
   }
 
-  nav {
-    min-width: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  nav::-webkit-scrollbar {
-    display: none;
-  }
-
-  nav ul {
+  .nav ul {
     display: flex;
     gap: var(--space-xl);
     flex-wrap: nowrap;
   }
 
-  nav a {
+  .nav a {
     display: block;
     text-decoration: none;
     font-size: var(--text-body-medium-size);
@@ -108,8 +109,8 @@ function isActive(href: string) {
     transition: color var(--duration-fast) var(--easing-standard);
   }
 
-  nav a:hover,
-  nav a[aria-current='page'] {
+  .nav a:hover,
+  .nav a[aria-current='page'] {
     color: var(--color-on-background);
   }
 
@@ -139,21 +140,137 @@ function isActive(href: string) {
     background: var(--color-primary-container);
   }
 
-  @media (max-width: 40rem) {
-    .bar {
-      gap: var(--space-md);
-    }
+  /* Hamburger — hidden on desktop */
+  .nav-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-full);
+    background: transparent;
+    cursor: pointer;
+    place-items: center;
+  }
 
-    nav ul {
-      gap: var(--space-md);
-    }
+  .nav-toggle-bars {
+    position: relative;
+    width: 16px;
+    height: 12px;
+    display: block;
+  }
 
-    nav a {
-      font-size: var(--text-body-small-size);
+  .nav-toggle-bars i {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: var(--radius-full);
+    background: var(--color-on-background);
+    transition: transform var(--duration-base) var(--easing-emphasized), opacity var(--duration-fast) var(--easing-standard);
+  }
+
+  .nav-toggle-bars i:nth-child(1) { top: 2px; }
+  .nav-toggle-bars i:nth-child(2) { bottom: 2px; }
+
+  .nav-toggle[aria-expanded='true'] .nav-toggle-bars i:nth-child(1) {
+    transform: translateY(3px) rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded='true'] .nav-toggle-bars i:nth-child(2) {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+
+  @media (max-width: 46rem) {
+    .nav-toggle {
+      display: grid;
     }
 
     .gh-cta span {
       display: none;
     }
+
+    /* Nav becomes a dropdown panel */
+    .nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: color-mix(in srgb, var(--color-background) 96%, transparent);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-outline-variant);
+      padding: var(--space-sm) var(--space-xl) var(--space-lg);
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        grid-template-rows var(--duration-moderate) var(--easing-decelerate),
+        opacity var(--duration-base) var(--easing-standard),
+        visibility var(--duration-base) var(--easing-standard);
+    }
+
+    .nav[data-open='true'] {
+      opacity: 1;
+      visibility: visible;
+      grid-template-rows: 1fr;
+    }
+
+    .nav ul {
+      flex-direction: column;
+      gap: 0;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .nav li {
+      border-bottom: 1px solid var(--color-outline-variant);
+    }
+
+    .nav li:last-child {
+      border-bottom: none;
+    }
+
+    .nav a {
+      padding-block: var(--space-md);
+      font-size: var(--text-title-medium-size);
+    }
   }
 </style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('primary-nav');
+
+  if (toggle && nav) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      nav.dataset.open = String(open);
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Close on link tap, Escape, or outside click.
+    nav.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (
+        toggle.getAttribute('aria-expanded') === 'true' &&
+        !(e.target as HTMLElement).closest('.site-header')
+      ) {
+        setOpen(false);
+      }
+    });
+  }
+</script>
