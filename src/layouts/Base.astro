@@ -8,6 +8,7 @@ import '../styles/tokens.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CreditBar from '../components/CreditBar.astro';
 
 interface Props {
   title: string;
@@ -57,5 +58,6 @@ const ogImageURL = new URL(`${base}${ogImage}`, Astro.site);
       <slot />
     </main>
     <Footer />
+    <CreditBar />
   </body>
 </html>

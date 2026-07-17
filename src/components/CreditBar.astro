@@ -1,0 +1,55 @@
+---
+// Creator credit — sticky at the bottom of every page (pins into view on the
+// final stretch of scroll). Sits AFTER <Footer/> in Base.astro.
+---
+
+<div class="credit-bar">
+	<a href="https://anshgandharva.online" target="_blank" rel="author noopener">
+		Made with
+		<svg
+			class="heart"
+			viewBox="0 0 24 24"
+			width="14"
+			height="14"
+			aria-hidden="true"
+			fill="currentColor"
+		>
+			<path
+				d="M12 21s-6.7-4.35-9.33-8.11C.8 10.2 1.7 6.6 4.7 5.3c2-.87 4.3-.2 5.8 1.4l1.5 1.6 1.5-1.6c1.5-1.6 3.8-2.27 5.8-1.4 3 1.3 3.9 4.9 2.03 7.59C18.7 16.65 12 21 12 21z"
+			></path>
+		</svg>
+		by <strong>Ansh Singh Rajput</strong>
+	</a>
+</div>
+
+<style>
+	.credit-bar {
+		position: sticky;
+		bottom: 0;
+		z-index: 10;
+		background: var(--color-surface-container, var(--color-surface));
+		border-top: 1px solid var(--color-outline-variant);
+		text-align: center;
+	}
+	.credit-bar a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35em;
+		padding: 0.55rem 1rem;
+		font-size: var(--text-label-large-size, 0.875rem);
+		color: var(--color-on-surface-variant);
+		text-decoration: none;
+	}
+	.credit-bar a:hover strong,
+	.credit-bar a:focus-visible strong {
+		text-decoration: underline;
+	}
+	.credit-bar strong {
+		color: var(--color-primary);
+		font-weight: 600;
+	}
+	.heart {
+		color: var(--color-error, #e25555);
+		translate: 0 1px;
+	}
+</style>
