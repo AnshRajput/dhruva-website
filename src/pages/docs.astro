@@ -1,0 +1,201 @@
+---
+import Base from '../layouts/Base.astro';
+
+const repo = 'https://github.com/AnshRajput/dhruva-app';
+
+const faq = [
+  {
+    q: 'Is it really fully offline?',
+    a: 'Inference is, always. Once a model is downloaded, chat, characters, vision, and document Q&A all run without a network connection — try it in airplane mode. The one path that needs a connection is downloading a model file the first time, because the file has to come from somewhere.',
+  },
+  {
+    q: 'What phones does it run on?',
+    a: 'Android 8.0+ (API 26) and iOS 14.0+. How well it runs depends more on RAM than OS version — see the models page for RAM guidance per model size.',
+  },
+  {
+    q: 'Why GGUF instead of some other format?',
+    a: 'GGUF is the format llama.cpp (the inference engine Dhruva runs on) uses natively, and it has by far the widest selection of pre-quantized community models on Hugging Face. Using it directly means Dhruva can load almost any GGUF release without a conversion step.',
+  },
+  {
+    q: 'Where do models actually come from?',
+    a: 'Hugging Face. Dhruva\'s model browser searches the public Hub API and downloads directly from huggingface.co — the same public infrastructure any GGUF tool uses. Dhruva doesn\'t host, mirror, or curate a private model store.',
+  },
+  {
+    q: 'Is my chat data stored anywhere? Does it sync to a server?',
+    a: 'Conversations are stored locally on your device (so you can come back to them) and nowhere else. There\'s no account to sync to and no server that would receive them even if you wanted it to.',
+  },
+  {
+    q: 'Do I need to sign up or log in?',
+    a: 'No. There is no account system. Install the app, download a model, start chatting.',
+  },
+  {
+    q: 'Why is this free and open source — what\'s the catch?',
+    a: 'No catch, and also no monetization plan that would require one — there\'s no subscription, no ads, no data to sell because none is collected. It\'s built by Appu Inside Engineering and released under Apache-2.0 because an app whose entire pitch is "trust us with nothing" should be auditable by anyone.',
+  },
+  {
+    q: 'Can I bring my own fine-tuned model?',
+    a: 'Yes, as long as it\'s a GGUF file — either browse for it on Hugging Face inside the app, or sideload a file you already have.',
+  },
+  {
+    q: 'What happens if my phone doesn\'t have enough RAM for a model?',
+    a: 'Dhruva shows a device verdict before you download — Comfortable, Possible, or Not recommended — based on the model\'s file size against your device\'s RAM, so you find out before spending the bandwidth, not after a crash. See the models page for exactly how that\'s calculated.',
+  },
+  {
+    q: 'Is Dhruva affiliated with AI4Bharat\'s Dhruva platform?',
+    a: 'No. AI4Bharat\'s Dhruva-Platform is a speech-serving backend, a different project in a different category. The name overlap is coincidental — both draw on the same pole-star reference — and this project uses distinct repo names (dhruva-app, dhruva-website) to keep them clearly separate.',
+  },
+];
+---
+
+<Base
+  title="Docs & FAQ — Dhruva AI"
+  description="Getting started with Dhruva AI from source, plus answers to common questions about offline inference, supported phones, models, and data privacy."
+>
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">Docs</p>
+      <h1>Getting started &amp; FAQ</h1>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap prose">
+      <h2>Building from source</h2>
+      <p>
+        Dhruva is a Flutter app (Android + iOS). It's currently pre-alpha and under active
+        development — the fastest way to try it today is to build it yourself.
+      </p>
+      <p><strong>Prerequisites:</strong> the Flutter SDK, matching the version pinned in the repo.</p>
+      <pre><code>git clone {repo}.git
+cd dhruva-app/app
+flutter pub get
+flutter test
+make verify   # full gate: analyze + format check + tests</code></pre>
+      <p>
+        <code>make verify</code> is the same gate CI runs — if it's green locally, your change is ready for a PR. Full setup, branch workflow, and contribution ground rules live in <a href={`${repo}/blob/main/CONTRIBUTING.md`} rel="noopener">CONTRIBUTING.md</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section faq-section">
+    <div class="wrap">
+      <p class="eyebrow">Questions</p>
+      <h2 class="faq-heading">Frequently asked</h2>
+      <div class="faq-list">
+        {
+          faq.map((item) => (
+            <details class="faq-item">
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-4xl) var(--space-2xl);
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  .page-head h1 {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-display-small-weight);
+    font-size: var(--text-display-small-size);
+    line-height: var(--text-display-small-line-height);
+    color: var(--color-on-background);
+    margin-top: var(--space-sm);
+  }
+
+  .section {
+    padding-block: var(--space-4xl);
+  }
+
+  .prose pre {
+    background: var(--color-surface);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    overflow-x: auto;
+    margin-bottom: var(--space-lg);
+  }
+
+  .prose code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--text-body-medium-size);
+    color: var(--color-on-surface);
+  }
+
+  .prose p code {
+    background: var(--color-surface-variant);
+    color: var(--color-on-surface-variant);
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-xs);
+    font-size: 0.9em;
+  }
+
+  .faq-section {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .faq-heading {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-headline-large-weight);
+    font-size: var(--text-headline-large-size);
+    color: var(--color-on-background);
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-2xl);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    max-width: 48rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-md);
+    padding: var(--space-base) var(--space-lg);
+    background: var(--color-background);
+  }
+
+  .faq-item summary {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: var(--text-body-large-size);
+    color: var(--color-on-background);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-base);
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    font-size: 1.25em;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    transition: transform var(--duration-fast) var(--easing-standard);
+  }
+
+  .faq-item[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  .faq-item p {
+    margin-top: var(--space-md);
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+  }
+</style>
