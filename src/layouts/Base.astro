@@ -30,6 +30,9 @@ const ogImageURL = new URL(`${base}${ogImage}`, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="canonical" href={canonicalURL} />
 
@@ -59,5 +62,51 @@ const ogImageURL = new URL(`${base}${ogImage}`, Astro.site);
     </main>
     <Footer />
     <CreditBar />
+
+    <script>
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const reveals = document.querySelectorAll('.reveal');
+
+      if (reduce.matches) {
+        reveals.forEach((el) => el.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-in');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+        );
+        reveals.forEach((el) => io.observe(el));
+
+        // Restrained hero parallax: transform-only, rAF-throttled, hero-only.
+        const layers = Array.from(document.querySelectorAll('[data-parallax]'));
+        if (layers.length) {
+          let ticking = false;
+          const update = () => {
+            const y = window.scrollY;
+            for (const layer of layers) {
+              const speed = parseFloat(layer.dataset.parallax || '0') || 0;
+              layer.style.transform = `translate3d(0, ${(y * speed).toFixed(2)}px, 0)`;
+            }
+            ticking = false;
+          };
+          window.addEventListener(
+            'scroll',
+            () => {
+              if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(update);
+              }
+            },
+            { passive: true },
+          );
+        }
+      }
+    </script>
   </body>
 </html>
