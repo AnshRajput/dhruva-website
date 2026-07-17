@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Privacy — Dhruva AI"
+  description="Why Dhruva AI never phones home: zero telemetry, downloads-only network, open source. The privacy manifesto behind the on-device AI app."
+>
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">Privacy</p>
+      <h1>Why we built an AI that never phones home</h1>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap prose manifesto">
+      <p>
+        Every mainstream AI chat app today works the same way: you type something, it leaves your
+        phone, and it lands on someone else's server before you get an answer. That's true even
+        for the "private" ones — private usually means "we promise not to look," not "we
+        physically can't." Dhruva takes the second path. Inference runs on your device, on the
+        model weights sitting in your device's storage, using your device's CPU and memory. There
+        is no server in the loop to promise anything about, because there is no server in the
+        loop.
+      </p>
+
+      <h2>What actually happens on your phone</h2>
+      <p>
+        When you send a message in Dhruva, it goes to a language model running as a local process
+        on your device — the same way a calculator app runs a calculation locally. The weights
+        file lives in your app's storage; the inference engine (<code>llama.cpp</code>, compiled
+        into the app) loads it and generates a response using your phone's own compute. Nothing
+        about that exchange is serialized, queued, or shipped anywhere. If you turn on airplane
+        mode mid-conversation, nothing breaks.
+      </p>
+
+      <h2>The one network call that exists on purpose</h2>
+      <p>
+        Dhruva is not a hermetically sealed app — you need to get a model onto your device
+        somehow. That's the one deliberate network path: browsing and downloading GGUF model files
+        from Hugging Face, a request you initiate, for a file you chose, that you can inspect the
+        URL of before it starts. No background sync, no "checking for updates" ping, no anonymous
+        usage ID attached to the request. If you sideload a model file instead of downloading it
+        through the app, that path works completely offline too.
+      </p>
+
+      <h2>What's deliberately absent</h2>
+      <p>
+        No analytics SDK. No crash reporter uploading stack traces with device fingerprints. No
+        A/B testing framework, no remote feature flags, no "anonymous" usage metrics — anonymous
+        telemetry is still telemetry. Firebase appears exactly once in this project, for
+        distributing test builds to testers before release; it has no code path inside the shipped
+        app that talks to it. If you're skeptical of that sentence — and you should be skeptical of
+        sentences like that from any company — the entire codebase is public. Diff the network
+        calls yourself, or point a proxy at the app and watch.
+      </p>
+
+      <h2>Why open source matters here specifically</h2>
+      <p>
+        A closed-source app asking you to trust its privacy claims is asking you to trust a
+        company. Dhruva is Apache-2.0 licensed specifically so that claim doesn't have to be taken
+        on faith. Every network call, every permission the app requests, every dependency it
+        ships, is sitting in a public repository you can search. That's a stronger privacy
+        guarantee than any policy document, because a policy document can change and a promise can
+        be broken quietly — code you can read doesn't have that failure mode.
+      </p>
+
+      <h2>The name isn't a coincidence</h2>
+      <p>
+        Dhruva (&#2343;&#2381;&#2352;&#2369;&#2357;) is the pole star — the fixed point that doesn't need a network of
+        other stars to be found by. That's the whole design brief in one image: something reliable
+        that works alone, visible only to the person navigating by it. An AI that needs your data
+        on a server somewhere to function isn't that. One that runs entirely in your pocket is.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-4xl) var(--space-2xl);
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  .page-head h1 {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-display-small-weight);
+    font-size: var(--text-display-small-size);
+    line-height: var(--text-display-small-line-height);
+    color: var(--color-on-background);
+    margin-top: var(--space-sm);
+    max-width: 22ch;
+  }
+
+  .section {
+    padding-block: var(--space-4xl) var(--space-6xl);
+  }
+
+  .manifesto {
+    max-width: 42rem;
+  }
+
+  .manifesto code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--color-surface-variant);
+    color: var(--color-on-surface-variant);
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-xs);
+    font-size: 0.9em;
+  }
+</style>

@@ -1,0 +1,243 @@
+---
+import Base from '../layouts/Base.astro';
+import { STARTER_MODELS } from '../data/models';
+---
+
+<Base
+  title="Supported models — Dhruva AI"
+  description="Verified starter models for Dhruva AI: repo IDs, sizes, and RAM guidance for on-device GGUF chat, vision, and embedding models."
+>
+  <header class="page-head">
+    <div class="wrap">
+      <p class="eyebrow">Models</p>
+      <h1>Bring any GGUF. Start with these.</h1>
+      <p class="lede">
+        Dhruva can load any quantized GGUF model you download from Hugging Face — there's no
+        curated-only walled garden. The table below is the starter catalog: models we've verified
+        work well on-device, with real repo IDs and honest RAM guidance.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Model</th>
+              <th scope="col">Repo</th>
+              <th scope="col">Role</th>
+              <th scope="col">Quant</th>
+              <th scope="col">Approx. size</th>
+              <th scope="col">RAM floor</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              STARTER_MODELS.map((m) => (
+                <tr>
+                  <td>
+                    <span class="model-name">{m.name}</span>
+                    <span class="use-case">{m.useCase}</span>
+                  </td>
+                  <td>
+                    <a href={`https://huggingface.co/${m.repo}`} rel="noopener" class="mono">
+                      {m.repo}
+                    </a>
+                  </td>
+                  <td>{m.role}</td>
+                  <td class="mono">{m.quant}</td>
+                  <td>{m.approxSize}</td>
+                  <td>
+                    <span class:list={['tier', { negligible: m.ramFloor === 'negligible' }]}>
+                      {m.ramFloor}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">
+        Sizes are approximate Q4_K_M file sizes at time of writing — always check the exact size
+        on the model's Hugging Face page before downloading, especially on a metered connection.
+      </p>
+    </div>
+  </section>
+
+  <section class="section verdicts">
+    <div class="wrap prose">
+      <h2>How device verdicts work</h2>
+      <p>
+        When you open a model in the hub, Dhruva shows a verdict badge — <strong>Comfortable</strong>, <strong>Possible</strong>, or <strong>Not recommended</strong> — instead of making you guess whether it'll run. The logic is deliberately simple and file-size-based, not a black box:
+      </p>
+      <ol class="verdict-steps">
+        <li>
+          Dhruva looks at the quantized <strong>file size</strong> of the GGUF you're about to download and buckets it: up to 1.2&nbsp;GB is the "1B class", up to 3&nbsp;GB is the "3B class", anything larger is "4B+".
+        </li>
+        <li>
+          Each bucket has a RAM floor: <strong>4&nbsp;GB</strong> for the 1B class, <strong>6&nbsp;GB</strong> for the 3B class, <strong>8&nbsp;GB</strong> for 4B+.
+        </li>
+        <li>
+          Your device's total RAM is compared against that floor. Below the floor → <strong>Not recommended</strong> (loading may run out of memory). At or above the floor but under 1.5&times; the floor → <strong>Possible</strong> (it'll run, with little headroom — expect it to be slower or crowd out other apps). At 1.5&times; the floor or above → <strong>Comfortable</strong>.
+        </li>
+      </ol>
+      <p>
+        File size, not parameter count, drives the bucket — a Q4_K_M quant tracks real memory
+        pressure much more closely than the model's advertised parameter count does. Vision models
+        include their mmproj file in the size that gets bucketed, since it's loaded alongside the
+        base model.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-4xl) var(--space-2xl);
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  .page-head h1 {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-display-small-weight);
+    font-size: var(--text-display-small-size);
+    line-height: var(--text-display-small-line-height);
+    color: var(--color-on-background);
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-base);
+    max-width: 18ch;
+  }
+
+  .lede {
+    max-width: 60ch;
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-large-size);
+  }
+
+  .section {
+    padding-block: var(--space-4xl);
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-lg);
+  }
+
+  table {
+    min-width: 48rem;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: var(--space-md) var(--space-base);
+    border-bottom: 1px solid var(--color-outline-variant);
+    font-size: var(--text-body-medium-size);
+    vertical-align: top;
+  }
+
+  thead th {
+    font-size: var(--text-label-medium-size);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-on-surface-variant);
+    background: var(--color-surface);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background: var(--color-surface);
+  }
+
+  .model-name {
+    display: block;
+    font-weight: 700;
+    color: var(--color-on-background);
+  }
+
+  .use-case {
+    display: block;
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-small-size);
+    margin-top: var(--space-xs);
+  }
+
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--text-body-small-size);
+    color: var(--color-secondary);
+    text-decoration: none;
+    word-break: break-word;
+  }
+
+  .mono:hover {
+    text-decoration: underline;
+  }
+
+  .tier {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+    font-weight: 700;
+    font-size: var(--text-label-small-size);
+    white-space: nowrap;
+  }
+
+  .tier.negligible {
+    background: var(--color-surface-variant);
+    color: var(--color-on-surface-variant);
+  }
+
+  .table-note {
+    margin-top: var(--space-base);
+    font-size: var(--text-body-small-size);
+    color: var(--color-on-surface-variant);
+    max-width: 60ch;
+  }
+
+  .verdicts {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .verdict-steps {
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-base);
+    margin-bottom: var(--space-lg);
+  }
+
+  .verdict-steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: var(--space-2xl);
+    color: var(--color-on-surface-variant);
+    max-width: 62ch;
+  }
+
+  .verdict-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-full);
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+    font-weight: 700;
+    font-size: var(--text-label-small-size);
+  }
+</style>

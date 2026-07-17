@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Static OG/social-preview image. Colors are dark-theme tokens.json values
+       (color.dark.background #0E1220, color.brand.starGold.400 #EBBA47,
+       color.dark.onBackground #EDEFF8, color.dark.onSurfaceVariant #C7CEE0)
+       hand-copied here since a static asset can't consume tokens.css. -->
+  <rect width="1200" height="630" fill="#0E1220" />
+
+  <!-- pole-star mark, scaled 6x from the 64x64 geometry, centered left -->
+  <g transform="translate(180,195) scale(6)">
+    <path
+      d="M27,32 Q30.03,20.95 32,4 Q33.97,20.95 37,32 L27,32 Z M37,32 Q33.97,43.05 32,60 Q30.03,43.05 27,32 Z M32,27 Q42.05,30.07 58,32 Q42.05,33.93 32,37 Z M32,37 Q21.95,33.93 6,32 Q21.95,30.07 32,27 Z"
+      fill="#EBBA47"
+    />
+    <circle cx="32" cy="32" r="2" fill="#0E1220" />
+  </g>
+
+  <text x="440" y="300" font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="600" fill="#EDEFF8">
+    Dhruva AI
+  </text>
+  <text x="440" y="360" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="600" fill="#EBBA47">
+    Your AI. Your phone. Nobody else's business.
+  </text>
+  <text x="440" y="410" font-family="-apple-system, 'Segoe UI', sans-serif" font-size="24" fill="#C7CEE0">
+    Open source &#8226; runs entirely on-device &#8226; zero telemetry
+  </text>
+</svg>

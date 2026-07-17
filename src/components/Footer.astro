@@ -1,0 +1,129 @@
+---
+const base = import.meta.env.BASE_URL;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap grid">
+    <div class="col">
+      <p class="brand-line">Dhruva AI</p>
+      <p class="tagline">Your AI. Your phone. Nobody else's business.</p>
+      <p class="credit">
+        Built by <strong>Appu Inside Engineering</strong>. Apache-2.0 licensed, open source.
+      </p>
+      <p class="disambiguation">
+        Not affiliated with AI4Bharat's Dhruva speech platform.
+      </p>
+    </div>
+
+    <nav class="col" aria-label="Site">
+      <p class="col-heading">Site</p>
+      <ul>
+        <li><a href={base}>Home</a></li>
+        <li><a href={`${base}models/`}>Supported models</a></li>
+        <li><a href={`${base}privacy/`}>Privacy</a></li>
+        <li><a href={`${base}docs/`}>Docs &amp; FAQ</a></li>
+      </ul>
+    </nav>
+
+    <nav class="col" aria-label="Project">
+      <p class="col-heading">Project</p>
+      <ul>
+        <li><a href="https://github.com/AnshRajput/dhruva-app" rel="noopener">GitHub</a></li>
+        <li>
+          <a href="https://github.com/AnshRajput/dhruva-app/blob/main/LICENSE" rel="noopener"
+            >Apache-2.0 license</a
+          >
+        </li>
+        <li>
+          <a href="https://github.com/AnshRajput/dhruva-app/blob/main/CONTRIBUTING.md" rel="noopener"
+            >Contributing</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="wrap fine-print">
+    <p>&copy; {year} Appu Inside Engineering. Dhruva AI is Apache-2.0 licensed, open-source software.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-outline-variant);
+    padding-block: var(--space-4xl) var(--space-xl);
+    margin-top: var(--space-6xl);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .brand-line {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: var(--text-title-large-size);
+    color: var(--color-on-background);
+    margin-bottom: var(--space-xs);
+  }
+
+  .tagline {
+    color: var(--color-on-surface-variant);
+    font-weight: 600;
+    margin-bottom: var(--space-base);
+  }
+
+  .credit,
+  .disambiguation {
+    font-size: var(--text-body-small-size);
+    color: var(--color-on-surface-variant);
+    max-width: 34ch;
+  }
+
+  .disambiguation {
+    margin-top: var(--space-xs);
+  }
+
+  .col-heading {
+    font-size: var(--text-label-medium-size);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+    margin-bottom: var(--space-md);
+  }
+
+  .col ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .col a {
+    text-decoration: none;
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+  }
+
+  .col a:hover {
+    color: var(--color-secondary);
+  }
+
+  .fine-print {
+    margin-top: var(--space-3xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-outline-variant);
+    font-size: var(--text-body-small-size);
+    color: var(--color-on-surface-variant);
+  }
+
+  @media (max-width: 40rem) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>

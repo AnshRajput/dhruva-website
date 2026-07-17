@@ -18,13 +18,26 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # Token pipeline reads design-tokens.json from this path instead of the
+      # local "../dhruva-app" sibling convention (see scripts/tokens/config.mjs)
+      # because actions/checkout can't place a second repo outside
+      # $GITHUB_WORKSPACE. TODO(Loop 12 gate): once dhruva-app tags a release,
+      # replace both this and the checkout step below with a
+      # raw.githubusercontent fetch pinned to that tag.
+      DHRUVA_TOKENS_SOURCE: dhruva-app-src/design-tokens.json
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: AnshRajput/dhruva-app
+          path: dhruva-app-src
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run tokens:check
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'

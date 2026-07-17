@@ -1,0 +1,159 @@
+---
+import Logo from './Logo.astro';
+
+const base = import.meta.env.BASE_URL; // ends with '/'
+const path = Astro.url.pathname;
+
+const links = [
+  { href: `${base}`, label: 'Home' },
+  { href: `${base}models/`, label: 'Models' },
+  { href: `${base}privacy/`, label: 'Privacy' },
+  { href: `${base}docs/`, label: 'Docs' },
+];
+
+function isActive(href: string) {
+  if (href === base) return path === base || path === base.slice(0, -1);
+  return path.startsWith(href);
+}
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={base} aria-label="Dhruva AI home">
+      <Logo size={28} />
+      <span class="wordmark">Dhruva</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="gh-cta" href="https://github.com/AnshRajput/dhruva-app" rel="noopener">
+      <span>GitHub</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path
+          d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.17-.89-1.17-.72-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.23 1.87.87 2.33.67.07-.52.28-.87.5-1.08-1.78-.2-3.65-.89-3.65-3.96 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.22 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.51.56.82 1.28.82 2.15 0 3.08-1.87 3.75-3.66 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"
+        />
+      </svg>
+    </a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--color-background) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    padding-block: var(--space-base);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+    margin-right: auto;
+    flex-shrink: 0;
+  }
+
+  .wordmark {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: var(--text-title-large-size);
+    color: var(--color-on-background);
+  }
+
+  nav {
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  nav ul {
+    display: flex;
+    gap: var(--space-xl);
+    flex-wrap: nowrap;
+  }
+
+  nav a {
+    display: block;
+    text-decoration: none;
+    font-size: var(--text-body-medium-size);
+    font-weight: 600;
+    color: var(--color-on-surface-variant);
+    white-space: nowrap;
+    transition: color var(--duration-fast) var(--easing-standard);
+  }
+
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--color-on-background);
+  }
+
+  .gh-cta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+    font-size: var(--text-label-large-size);
+    font-weight: 700;
+    color: var(--color-on-background);
+    border: 1px solid var(--color-outline);
+    border-radius: var(--radius-full);
+    padding: var(--space-sm) var(--space-base);
+    flex-shrink: 0;
+    transition:
+      border-color var(--duration-fast) var(--easing-standard),
+      background var(--duration-fast) var(--easing-standard);
+  }
+
+  .gh-cta svg {
+    flex-shrink: 0;
+  }
+
+  .gh-cta:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-container);
+  }
+
+  @media (max-width: 40rem) {
+    .bar {
+      gap: var(--space-md);
+    }
+
+    nav ul {
+      gap: var(--space-md);
+    }
+
+    nav a {
+      font-size: var(--text-body-small-size);
+    }
+
+    .gh-cta span {
+      display: none;
+    }
+  }
+</style>

@@ -6,12 +6,19 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "predev": "node scripts/build-tokens.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/build-tokens.mjs",
     "build": "astro build",
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "tokens:check": "node scripts/check-tokens-drift.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@fontsource/fraunces": "^5.2.8",
+    "@fontsource/manrope": "^5.2.8",
     "astro": "^7.1.0"
   }
 }
