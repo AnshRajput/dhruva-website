@@ -1,308 +1,538 @@
 ---
 import Base from '../layouts/Base.astro';
 import Logo from '../components/Logo.astro';
+import StarGlyph from '../components/StarGlyph.astro';
+import Pillar from '../components/Pillar.astro';
+import PhoneFrame from '../components/mockups/PhoneFrame.astro';
+import ChatMock from '../components/mockups/ChatMock.astro';
+import ModelsHubMock from '../components/mockups/ModelsHubMock.astro';
+import CharactersMock from '../components/mockups/CharactersMock.astro';
+import VisionMock from '../components/mockups/VisionMock.astro';
+import ImagineMock from '../components/mockups/ImagineMock.astro';
+import VoiceMock from '../components/mockups/VoiceMock.astro';
+import DocsMock from '../components/mockups/DocsMock.astro';
+import ToolboxMock from '../components/mockups/ToolboxMock.astro';
+import PlaygroundMock from '../components/mockups/PlaygroundMock.astro';
 
 const repo = 'https://github.com/AnshRajput/dhruva-app';
 const base = import.meta.env.BASE_URL;
 
-const features = [
-  {
-    title: 'Offline chat',
-    body: 'Talk to any model you download — no connection required once it’s on your device.',
-  },
-  {
-    title: 'Any GGUF from Hugging Face',
-    body: 'Browse and pull quantized models straight from the Hub. No walled garden, no approval queue.',
-  },
-  {
-    title: 'Characters',
-    body: 'Custom personas with their own system prompts and memory, for roleplay or focused assistants.',
-  },
-  {
-    title: 'Vision',
-    body: 'Point it at a photo or screenshot and ask questions — image understanding, entirely on-phone.',
-  },
-  {
-    title: 'Image generation',
-    body: 'Quantized Stable Diffusion, generating images without a single request leaving your device.',
-  },
-  {
-    title: 'Voice',
-    body: 'Speech in, speech out, with real turn-taking — not a walkie-talkie push-to-talk bolt-on.',
-  },
-  {
-    title: 'Document chat',
-    body: 'Drop in a PDF and ask it questions, retrieved and answered with on-device embeddings.',
-  },
-  {
-    title: 'One-tap toolbox',
-    body: 'Alarms, notes, quick calculations — small local tools the model can reach for mid-conversation.',
-  },
-];
-
-const privacyPoints = [
-  {
-    title: 'Zero telemetry',
-    body: 'No analytics SDKs, no crash reporters phoning home, no feature flags that call out. Nothing about how you use Dhruva leaves your device.',
-  },
-  {
-    title: 'Downloads-only network',
-    body: 'The only network calls Dhruva ever makes are the ones you ask for: fetching a model from Hugging Face. That’s the entire network surface.',
-  },
-  {
-    title: 'Open source, Apache-2.0',
-    body: 'Every line is public. Don’t take our word for the privacy claims — read the code, or watch it in a network monitor.',
-  },
-];
+const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 ---
 
 <Base
   title="Dhruva AI — Your AI. Your phone. Nobody else's business."
   description="Dhruva AI is an open-source app that runs AI models 100% on your device — offline chat, characters, vision, image generation, voice, and document chat. Zero telemetry, Apache-2.0."
 >
+  <!-- ===================== HERO ===================== -->
   <section class="hero">
-    <div class="starfield" aria-hidden="true"></div>
+    <div class="sky" aria-hidden="true">
+      <div class="aurora"></div>
+      <div class="stars stars-far" data-parallax="0.05"></div>
+      <div class="stars stars-mid" data-parallax="0.12"></div>
+      <div class="stars stars-near" data-parallax="0.22"></div>
+    </div>
+
     <div class="wrap hero-inner">
-      <Logo size={96} class="hero-mark" />
-      <p class="eyebrow">Open source &middot; runs entirely on-device</p>
-      <h1>Your AI. Your phone.<br />Nobody else's business.</h1>
+      <span class="badge"><span class="dot"></span> Open source · runs entirely on-device</span>
+
+      <div class="hero-mark">
+        <div class="mark-glow" aria-hidden="true"></div>
+        <Logo size={92} />
+      </div>
+
+      <h1>Your AI. Your phone.<br /><span class="h1-accent">Nobody else's business.</span></h1>
+
       <p class="hero-lede">
-        Dhruva is named for &#2343;&#2381;&#2352;&#2369;&#2357; &mdash; the pole star, the one fixed point in a
-        turning sky that never needs a network or an audience to hold steady. The app is the same
-        idea: every model runs on your phone, every inference happens offline, and the only
-        network call Dhruva ever makes is the one you start yourself &mdash; downloading a model.
+        Dhruva is named for ध्रुव — the pole star, the one fixed point in a turning sky that never
+        needs a network or an audience to hold steady. The app is that idea in your pocket: every
+        model runs on your phone, every answer is generated offline, and the only network call it
+        ever makes is the one you start yourself.
       </p>
-      <p class="hero-sub">No account. No cloud. No one watching.</p>
 
       <div class="hero-actions">
-        <a class="btn-primary" href={repo} rel="noopener">
-          Follow the build on GitHub
+        <a class="btn btn-primary" href={repo} rel="noopener">
+          Star it on GitHub
+          <span class="btn-icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.17-.89-1.17-.72-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.71 1.23 1.87.87 2.33.67.07-.52.28-.87.5-1.08-1.78-.2-3.65-.89-3.65-3.96 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.22 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.51.56.82 1.28.82 2.15 0 3.08-1.87 3.75-3.66 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+          </span>
         </a>
-        <a class="btn-secondary" href={`${base}models/`}>See supported models</a>
+        <a class="btn btn-ghost" href={`${base}build/`}>
+          Follow the build
+          <span class="btn-icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
       </div>
 
-      <div class="screenshot-frame">
-        <div class="screenshot-placeholder">
-          <Logo size={40} />
-          <p>In development &mdash; follow the build</p>
-          <span>Real app screenshots land as loops ship.</span>
+      <ul class="proof">
+        {proof.map((p) => (
+          <li><StarGlyph class="star-xs" /> {p}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== WHAT WE'RE BUILDING ===================== -->
+  <section class="section-tight what-head">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="eyebrow">What we're building</p>
+        <h2>One app. Every model. Nothing leaves your device.</h2>
+        <p>
+          Dhruva is in active, open development. Here's the product taking shape, screen by screen —
+          each preview below is drawn straight from the design system, not a marketing render.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <Pillar
+    index="01"
+    eyebrow="Offline chat"
+    title="A chat that never asks for a signal"
+    body="Talk to any model you've downloaded, fully offline. Streaming responses with a live tokens-per-second readout, code blocks, and collapsible reasoning so you can watch the model think."
+    points={[
+      'Live <strong>tok/s</strong> ticker and markdown + code rendering',
+      'Collapsible <strong>&lt;think&gt;</strong> reasoning, on by request not by default',
+      'Regenerate, edit, export — history stays on device',
+    ]}
+  >
+    <PhoneFrame label="Chat — streaming reply"><ChatMock /></PhoneFrame>
+  </Pillar>
+
+  <Pillar
+    index="02"
+    eyebrow="Model hub"
+    title="Any GGUF from Hugging Face, no walled garden"
+    body="Browse and pull quantized models straight from the Hub. Before you spend the bandwidth, Dhruva gives an honest device verdict based on the file size against your phone's RAM."
+    points={[
+      '<strong>Comfortable / Possible / Not recommended</strong> — no guessing',
+      'Resumable, integrity-checked downloads',
+      'Sideload your own fine-tunes too',
+    ]}
+    flip
+  >
+    <PhoneFrame label="Model hub — device verdicts"><ModelsHubMock /></PhoneFrame>
+  </Pillar>
+
+  <Pillar
+    index="03"
+    eyebrow="Characters"
+    title="Personas with their own mind and memory"
+    body="Give a model a name, a voice, and a standing system prompt. Build a Socratic tutor, a dungeon master that keeps the campaign log, or a focused assistant — each with its own memory."
+    points={[
+      'Custom system prompts per character',
+      'Separate memory, separate conversations',
+      'For roleplay or narrow, reliable helpers',
+    ]}
+  >
+    <PhoneFrame label="Characters — persona gallery"><CharactersMock /></PhoneFrame>
+  </Pillar>
+
+  <Pillar
+    index="04"
+    eyebrow="Vision"
+    title="Point it at anything and ask"
+    body="Show Dhruva a photo, a screenshot, a boarding pass. A vision model reads it and answers your questions about what's in the frame — image understanding that never leaves the phone."
+    points={[
+      'On-device image understanding, no upload',
+      'Screenshots, documents, photos',
+      'The mmproj loads alongside the base model',
+    ]}
+    flip
+  >
+    <PhoneFrame label="Vision — ask about a photo"><VisionMock /></PhoneFrame>
+  </Pillar>
+
+  <Pillar
+    index="05"
+    eyebrow="Image generation"
+    title="Make images without making a request"
+    body="Quantized Stable Diffusion, generating on your phone's own compute. Type a prompt, watch it denoise step by step, and keep every pixel local — not one request leaves the device."
+    points={[
+      'Quantized diffusion, fully offline',
+      'Live step-by-step progress',
+      'Your prompts never touch a server',
+    ]}
+  >
+    <PhoneFrame label="Imagine — on-device diffusion"><ImagineMock /></PhoneFrame>
+  </Pillar>
+
+  <Pillar
+    index="06"
+    eyebrow="Voice"
+    title="A real conversation, not a walkie-talkie"
+    body="Speech in, speech out, with genuine turn-taking — the model listens, knows when you've finished, and can be interrupted mid-answer. Speech recognition and synthesis both run on-device."
+    points={[
+      'VAD, turn-taking, and interruption',
+      'STT and TTS on-device',
+      'No push-to-talk bolt-on',
+    ]}
+    flip
+  >
+    <PhoneFrame label="Voice — live turn-taking"><VoiceMock /></PhoneFrame>
+  </Pillar>
+
+  <Pillar
+    index="07"
+    eyebrow="Chat with documents"
+    title="Drop in a PDF, ask it anything"
+    body="Dhruva indexes your document with on-device embeddings, retrieves the relevant passages, and answers with a citation back to the page — retrieval-augmented, with nothing uploaded."
+    points={[
+      'On-device embeddings and retrieval',
+      'Answers cite the page they came from',
+      'Your documents stay yours',
+    ]}
+  >
+    <PhoneFrame label="Documents — cited answers"><DocsMock /></PhoneFrame>
+  </Pillar>
+
+  <Pillar
+    index="08"
+    eyebrow="AI toolbox"
+    title="Small local tools, reached for mid-chat"
+    body="Alarms, notes, quick calculations — the model can call small on-device tools right inside a conversation. The intent is handled on your phone; no assistant server is ever in the loop."
+    points={[
+      'Set alarms, save notes, run calculations',
+      'Tool calls render inline and honestly',
+      'Local intents, no cloud round-trip',
+    ]}
+    flip
+  >
+    <PhoneFrame label="Toolbox — inline tool call"><ToolboxMock /></PhoneFrame>
+  </Pillar>
+
+  <Pillar
+    index="09"
+    eyebrow="Playground + AI news"
+    title="Compare models. Tune them. Stay current."
+    body="Run one prompt across two models side by side, tune the sampling live, and read an opt-in digest of what's new in on-device AI — fetched only when you ask, never in the background."
+    points={[
+      'A / B compare with live sampling controls',
+      'Opt-in AI news, fetched on request',
+      'New in the roadmap (Loop 10.5)',
+    ]}
+  >
+    <PhoneFrame label="Playground — A / B compare"><PlaygroundMock /></PhoneFrame>
+  </Pillar>
+
+  <!-- ===================== PRIVACY ===================== -->
+  <section class="section privacy">
+    <div class="wrap privacy-inner">
+      <div class="privacy-lead reveal">
+        <p class="eyebrow">Privacy, by construction</p>
+        <h2>Not a policy.<br />An architecture.</h2>
+        <p class="privacy-blurb">
+          Most "private" AI apps mean "we promise not to look." Dhruva means the data physically
+          never leaves. There is no server in the loop to make a promise about.
+        </p>
+        <div class="privacy-mark">
+          <StarGlyph class="star-md" />
+          <span>Runs 100% on your device</span>
         </div>
+        <a class="prose-link" href={`${base}privacy/`}>
+          Read the full privacy manifesto
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
+
+      <ul class="privacy-points reveal">
+        <li class="lift">
+          <h3>Zero telemetry</h3>
+          <p>No analytics SDKs, no crash reporters phoning home, no feature flags that call out. Nothing about how you use Dhruva leaves your device.</p>
+        </li>
+        <li class="lift">
+          <h3>Downloads-only network</h3>
+          <p>The single network call Dhruva ever makes is the one you ask for: fetching a model from Hugging Face. That's the entire network surface.</p>
+        </li>
+        <li class="lift">
+          <h3>Open source, Apache-2.0</h3>
+          <p>Every line is public. Don't take our word for the privacy claims — read the code, or point a network monitor at the app and watch.</p>
+        </li>
+      </ul>
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap">
-      <p class="eyebrow">What it does</p>
-      <h2>One app, entirely local</h2>
-      <div class="feature-grid">
-        {
-          features.map((f) => (
-            <article class="feature-card">
-              <h3>{f.title}</h3>
-              <p>{f.body}</p>
-            </article>
-          ))
-        }
+  <!-- ===================== BUILD IN PUBLIC ===================== -->
+  <section class="section build-teaser">
+    <div class="wrap build-inner reveal">
+      <div class="build-copy">
+        <p class="eyebrow">Built in public</p>
+        <h2>Watch it get made, loop by loop</h2>
+        <p>
+          Dhruva is pre-alpha and shipped in the open. The engine is online, the model hub is live,
+          and the chat experience is landing now. There's no installable build yet — it's coming via
+          Firebase App Distribution — but the whole story so far is on the timeline.
+        </p>
+        <a class="btn btn-ghost" href={`${base}build/`}>
+          See the build timeline
+          <span class="btn-icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </a>
       </div>
+      <ul class="build-stats">
+        <li><span class="stat-num">4</span><span class="stat-label">loops shipped</span></li>
+        <li><span class="stat-num">100%</span><span class="stat-label">on-device inference</span></li>
+        <li><span class="stat-num">0</span><span class="stat-label">telemetry calls</span></li>
+      </ul>
     </div>
   </section>
 
-  <section class="section privacy-section">
-    <div class="wrap">
-      <p class="eyebrow">Privacy, by construction</p>
-      <h2>Not a policy. An architecture.</h2>
-      <div class="privacy-grid">
-        {
-          privacyPoints.map((p) => (
-            <article class="privacy-card">
-              <h3>{p.title}</h3>
-              <p>{p.body}</p>
-            </article>
-          ))
-        }
+  <!-- ===================== FINAL CTA ===================== -->
+  <section class="section final-cta">
+    <div class="sky sky-cta" aria-hidden="true">
+      <div class="stars stars-mid"></div>
+    </div>
+    <div class="wrap final-inner reveal">
+      <div class="final-mark"><Logo size={56} /></div>
+      <h2>The pole star doesn't rush to prove it's there.</h2>
+      <p>Neither does Dhruva. Follow along, read the code, and help shape an AI that answers to no one but you.</p>
+      <div class="hero-actions center">
+        <a class="btn btn-primary" href={repo} rel="noopener">
+          Star it on GitHub
+          <span class="btn-icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
+          </span>
+        </a>
+        <a class="btn btn-ghost" href={`${base}docs/`}>Read the docs</a>
       </div>
-      <a class="prose-link" href={`${base}privacy/`}>Read the full privacy manifesto &rarr;</a>
     </div>
   </section>
 </Base>
 
 <style>
+  /* ---------- Hero ---------- */
   .hero {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
-    padding-block: var(--space-6xl) var(--space-4xl);
-    background: var(--color-background);
+    padding-block: clamp(var(--space-6xl), 12vw, calc(var(--space-6xl) * 2));
+    background:
+      radial-gradient(120% 90% at 50% -10%, var(--color-surface) 0%, var(--color-background) 55%);
   }
 
-  .starfield {
+  .sky {
     position: absolute;
     inset: 0;
-    z-index: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  .aurora {
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 70%;
+    background:
+      radial-gradient(40% 60% at 22% 20%, color-mix(in srgb, var(--color-secondary) 20%, transparent), transparent 70%),
+      radial-gradient(46% 60% at 78% 10%, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 70%);
+    filter: blur(30px);
+    opacity: 0.9;
+  }
+
+  .stars {
+    position: absolute;
+    inset: -20% 0 0 0;
+    background-repeat: repeat;
+    will-change: transform;
+  }
+
+  .stars-far {
     opacity: 0.5;
     background-image:
-      radial-gradient(1.5px 1.5px at 8% 18%, var(--color-midnight-400) 100%, transparent 0),
-      radial-gradient(1px 1px at 22% 8%, var(--color-midnight-300) 100%, transparent 0),
-      radial-gradient(1.5px 1.5px at 38% 24%, var(--color-midnight-400) 100%, transparent 0),
-      radial-gradient(1px 1px at 55% 6%, var(--color-midnight-300) 100%, transparent 0),
-      radial-gradient(1.5px 1.5px at 68% 20%, var(--color-midnight-400) 100%, transparent 0),
-      radial-gradient(1px 1px at 82% 10%, var(--color-midnight-300) 100%, transparent 0),
-      radial-gradient(1.5px 1.5px at 92% 26%, var(--color-midnight-400) 100%, transparent 0),
-      radial-gradient(1px 1px at 12% 40%, var(--color-midnight-300) 100%, transparent 0),
-      radial-gradient(1px 1px at 47% 38%, var(--color-midnight-300) 100%, transparent 0),
-      radial-gradient(1px 1px at 78% 42%, var(--color-midnight-300) 100%, transparent 0);
-    background-repeat: no-repeat;
-    mask-image: linear-gradient(to bottom, black, transparent 85%);
+      radial-gradient(1px 1px at 12% 18%, var(--color-midnight-300) 99%, transparent),
+      radial-gradient(1px 1px at 34% 42%, var(--color-midnight-300) 99%, transparent),
+      radial-gradient(1px 1px at 58% 26%, var(--color-midnight-200) 99%, transparent),
+      radial-gradient(1px 1px at 76% 52%, var(--color-midnight-300) 99%, transparent),
+      radial-gradient(1px 1px at 88% 30%, var(--color-midnight-300) 99%, transparent),
+      radial-gradient(1px 1px at 5% 62%, var(--color-midnight-300) 99%, transparent);
+    background-size: 100% 100%;
+  }
+
+  .stars-mid {
+    opacity: 0.7;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 12%, var(--color-midnight-200) 99%, transparent),
+      radial-gradient(1.5px 1.5px at 46% 30%, var(--color-star-gold-200) 99%, transparent),
+      radial-gradient(1.5px 1.5px at 66% 16%, var(--color-midnight-100) 99%, transparent),
+      radial-gradient(1.5px 1.5px at 84% 40%, var(--color-midnight-200) 99%, transparent),
+      radial-gradient(1.5px 1.5px at 30% 54%, var(--color-midnight-200) 99%, transparent);
+    background-size: 100% 100%;
+  }
+
+  .stars-near {
+    opacity: 0.9;
+    background-image:
+      radial-gradient(2px 2px at 16% 24%, var(--color-star-gold-100) 99%, transparent),
+      radial-gradient(2px 2px at 72% 22%, var(--color-midnight-50) 99%, transparent),
+      radial-gradient(2px 2px at 90% 50%, var(--color-star-gold-200) 99%, transparent);
+    background-size: 100% 100%;
   }
 
   @media (prefers-color-scheme: light) {
-    .starfield {
-      opacity: 0.18;
+    .hero {
+      background: radial-gradient(120% 90% at 50% -10%, var(--color-surface) 0%, var(--color-background) 60%);
+    }
+    .stars {
+      opacity: 0.25;
+    }
+    .aurora {
+      opacity: 0.5;
     }
   }
 
   .hero-inner {
-    position: relative;
-    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: var(--space-base);
+    gap: var(--space-lg);
   }
 
-  .hero-inner :global(.hero-mark) {
-    margin-bottom: var(--space-sm);
+  .hero-mark {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin-top: var(--space-sm);
   }
 
-  .hero-inner h1 {
+  .mark-glow {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: var(--radius-full);
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 34%, transparent), transparent 62%);
+    filter: blur(14px);
+    z-index: -1;
+  }
+
+  .hero h1 {
     font-family: var(--font-family-display);
-    font-weight: var(--text-display-medium-weight);
-    font-size: clamp(2.25rem, 5vw + 1rem, var(--text-display-large-size));
+    font-weight: var(--text-display-large-weight);
+    font-size: clamp(2.5rem, 6vw + 1rem, var(--text-display-large-size));
     line-height: var(--text-display-medium-line-height);
     letter-spacing: var(--text-display-large-tracking);
     color: var(--color-on-background);
-    max-width: 20ch;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+
+  .h1-accent {
+    color: var(--color-primary);
   }
 
   .hero-lede {
-    max-width: 56ch;
+    max-width: 60ch;
     color: var(--color-on-surface-variant);
-    font-size: var(--text-body-large-size);
-  }
-
-  .hero-sub {
-    font-weight: 600;
-    color: var(--color-on-background);
-    opacity: 0.8;
+    font-size: clamp(var(--text-body-large-size), 1vw + 0.8rem, var(--text-title-medium-size));
   }
 
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: var(--space-base);
     margin-top: var(--space-sm);
   }
 
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    font-weight: 700;
-    padding: var(--space-md) var(--space-xl);
-    border-radius: var(--radius-full);
-    transition: transform var(--duration-fast) var(--easing-standard);
+  .hero-actions.center {
+    justify-content: center;
   }
 
-  .btn-primary:hover {
-    transform: translateY(-1px);
+  .proof {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-base) var(--space-xl);
+    margin-top: var(--space-lg);
   }
 
-  .btn-secondary {
+  .proof li {
     display: inline-flex;
     align-items: center;
-    text-decoration: none;
-    color: var(--color-on-background);
+    gap: var(--space-sm);
+    font-size: var(--text-label-large-size);
     font-weight: 600;
-    padding: var(--space-md) var(--space-xl);
+    color: var(--color-on-surface-variant);
+  }
+
+  /* ---------- What-we're-building header ---------- */
+  .what-head {
+    padding-top: clamp(var(--space-5xl), 8vw, calc(var(--space-6xl) + var(--space-3xl)));
+  }
+
+  /* ---------- Privacy ---------- */
+  .privacy {
+    border-top: 1px solid var(--color-outline-variant);
+    background:
+      radial-gradient(80% 60% at 15% 0%, color-mix(in srgb, var(--color-secondary) 8%, transparent), transparent 60%),
+      var(--color-background);
+  }
+
+  .privacy-inner {
+    display: grid;
+    grid-template-columns: 5fr 6fr;
+    gap: clamp(var(--space-2xl), 5vw, var(--space-6xl));
+    align-items: start;
+  }
+
+  .privacy-lead h2 {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-display-small-weight);
+    font-size: clamp(var(--text-headline-large-size), 3vw + 1rem, var(--text-display-medium-size));
+    line-height: var(--text-headline-large-line-height);
+    letter-spacing: var(--text-display-large-tracking);
+    color: var(--color-on-background);
+    margin-top: var(--space-base);
+  }
+
+  .privacy-blurb {
+    margin-top: var(--space-lg);
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-large-size);
+    max-width: 44ch;
+  }
+
+  .privacy-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+    padding: var(--space-sm) var(--space-base);
     border-radius: var(--radius-full);
-    border: 1px solid var(--color-outline);
+    border: 1px solid var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+    font-weight: 700;
+    font-size: var(--text-label-large-size);
+    color: var(--color-on-background);
   }
 
-  .btn-secondary:hover {
-    border-color: var(--color-secondary);
+  .prose-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
     color: var(--color-secondary);
+    text-decoration: none;
+    font-weight: 700;
   }
 
-  .screenshot-frame {
-    margin-top: var(--space-4xl);
-    width: min(20rem, 80vw);
-    aspect-ratio: 9 / 18;
-    border: 1px solid var(--color-outline);
-    border-radius: var(--radius-xl);
-    padding: var(--space-sm);
-    background: var(--color-surface);
+  .prose-link:hover {
+    gap: var(--space-md);
   }
 
-  .screenshot-placeholder {
-    height: 100%;
+  .privacy-points {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-sm);
-    text-align: center;
-    padding: var(--space-lg);
-    border-radius: calc(var(--radius-xl) - var(--space-sm));
-    border: 1px dashed var(--color-outline-variant);
-    background: var(--color-surface-variant);
+    gap: var(--space-base);
   }
 
-  .screenshot-placeholder p {
-    font-weight: 700;
-    color: var(--color-on-surface-variant);
-    font-size: var(--text-body-medium-size);
-  }
-
-  .screenshot-placeholder span {
-    font-size: var(--text-body-small-size);
-    color: var(--color-on-surface-variant);
-  }
-
-  .section {
-    padding-block: var(--space-6xl);
-  }
-
-  .section h2 {
-    font-family: var(--font-family-display);
-    font-weight: var(--text-headline-large-weight);
-    font-size: var(--text-headline-large-size);
-    line-height: var(--text-headline-large-line-height);
-    color: var(--color-on-background);
-    margin-top: var(--space-sm);
-    margin-bottom: var(--space-3xl);
-    max-width: 24ch;
-  }
-
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--color-outline-variant);
-    border: 1px solid var(--color-outline-variant);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .feature-card {
-    background: var(--color-surface);
+  .privacy-points li {
     padding: var(--space-xl);
+    border-radius: var(--radius-lg);
   }
 
-  .feature-card h3 {
+  .privacy-points h3 {
     font-family: var(--font-family-display);
     font-weight: 600;
     font-size: var(--text-title-large-size);
@@ -310,59 +540,115 @@ const privacyPoints = [
     margin-bottom: var(--space-sm);
   }
 
-  .feature-card p {
-    font-size: var(--text-body-medium-size);
+  .privacy-points p {
     color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+    max-width: 54ch;
   }
 
-  .privacy-section {
-    background: var(--color-surface);
+  /* ---------- Build teaser ---------- */
+  .build-teaser {
     border-top: 1px solid var(--color-outline-variant);
-    border-bottom: 1px solid var(--color-outline-variant);
+    background: var(--color-surface);
   }
 
-  .privacy-grid {
+  .build-inner {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-xl);
-    margin-bottom: var(--space-2xl);
+    grid-template-columns: 3fr 2fr;
+    gap: clamp(var(--space-2xl), 5vw, var(--space-5xl));
+    align-items: center;
   }
 
-  .privacy-card h3 {
+  .build-copy h2 {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-display-small-weight);
+    font-size: clamp(var(--text-headline-medium-size), 2.4vw + 1rem, var(--text-display-small-size));
+    line-height: var(--text-headline-large-line-height);
+    color: var(--color-on-background);
+    margin-top: var(--space-base);
+  }
+
+  .build-copy p {
+    margin-block: var(--space-base) var(--space-xl);
+    color: var(--color-on-surface-variant);
+    max-width: 56ch;
+  }
+
+  .build-stats {
+    display: grid;
+    gap: var(--space-base);
+  }
+
+  .build-stats li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-base);
+    padding: var(--space-base) var(--space-lg);
+    border-radius: var(--radius-lg);
+    background: var(--color-background);
+    border: 1px solid var(--color-outline-variant);
+  }
+
+  .stat-num {
     font-family: var(--font-family-display);
     font-weight: 600;
-    font-size: var(--text-title-large-size);
-    color: var(--color-on-background);
-    margin-bottom: var(--space-sm);
+    font-size: var(--text-headline-medium-size);
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+    min-width: 3ch;
   }
 
-  .privacy-card p {
-    font-size: var(--text-body-medium-size);
+  .stat-label {
     color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
   }
 
-  .prose-link {
-    color: var(--color-secondary);
-    text-decoration: none;
-    font-weight: 700;
+  /* ---------- Final CTA ---------- */
+  .final-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-top: 1px solid var(--color-outline-variant);
+    background: radial-gradient(100% 100% at 50% 120%, var(--color-surface) 0%, var(--color-background) 60%);
+    text-align: center;
   }
 
-  .prose-link:hover {
-    text-decoration: underline;
+  .sky-cta {
+    opacity: 0.6;
   }
 
-  @media (max-width: 64rem) {
-    .feature-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .privacy-grid {
-      grid-template-columns: 1fr;
-    }
+  .final-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
   }
 
-  @media (max-width: 32rem) {
-    .feature-grid {
+  .final-mark {
+    display: grid;
+    place-items: center;
+  }
+
+  .final-cta h2 {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-display-small-weight);
+    font-size: clamp(var(--text-headline-medium-size), 3vw + 1rem, var(--text-display-medium-size));
+    line-height: var(--text-headline-large-line-height);
+    letter-spacing: var(--text-display-large-tracking);
+    color: var(--color-on-background);
+    max-width: 20ch;
+    text-wrap: balance;
+  }
+
+  .final-cta p {
+    color: var(--color-on-surface-variant);
+    max-width: 52ch;
+    font-size: var(--text-body-large-size);
+  }
+
+  @media (max-width: 52rem) {
+    .privacy-inner,
+    .build-inner {
       grid-template-columns: 1fr;
     }
   }

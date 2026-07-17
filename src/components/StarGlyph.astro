@@ -1,0 +1,36 @@
+---
+// The recurring 4-point pole-star motif, per iconography.motif in
+// design-tokens.json. Geometry is the canonical mark from src/lib/logo-mark.mjs
+// (no pinhole — this is the small accent glyph for loading/active/empty marks).
+//
+// Sizing/color: defaults to gold (var(--color-primary)) at 1em so it can never
+// blow up to full width, and inherits/overrides cleanly. Callers control size
+// with the global `.star-xs|sm|md|lg|xl` utilities (or any width/height), and
+// override color via `style`/`color`. Extra attributes are forwarded to the svg
+// — Astro-scoped parent styles can't reach a child component's element, so
+// class-based sizing must come from global utilities, not scoped rules.
+import { STAR_VIEWBOX, STAR_PATH_D } from '../lib/logo-mark.mjs';
+
+interface Props {
+  class?: string;
+  title?: string;
+  [key: string]: unknown;
+}
+const { class: className, title, style, ...rest } = Astro.props;
+const styleStr = `color:var(--color-primary);flex-shrink:0;${style ?? ''}`;
+---
+
+<svg
+  class={className}
+  width="1em"
+  height="1em"
+  {...rest}
+  viewBox={STAR_VIEWBOX}
+  role={title ? 'img' : 'presentation'}
+  aria-label={title}
+  aria-hidden={title ? undefined : 'true'}
+  fill="currentColor"
+  style={styleStr}
+>
+  <path d={STAR_PATH_D} />
+</svg>

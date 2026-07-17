@@ -1,5 +1,6 @@
-/* Base reset + global rules. Every value here comes from tokens.css
-   custom properties — no hardcoded brand colors outside tokens.css. */
+/* Base reset + global rules + shared premium primitives.
+   Every value here resolves to a tokens.css custom property (composed with
+   clamp()/color-mix() where needed) — no hardcoded brand colors, ever. */
 
 *,
 *::before,
@@ -17,6 +18,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   min-height: 100vh;
   font-family: var(--font-family-ui);
@@ -25,6 +32,9 @@ body {
   letter-spacing: var(--text-body-large-tracking);
   background: var(--color-background);
   color: var(--color-on-background);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 img,
@@ -59,7 +69,7 @@ table {
 
 :focus-visible {
   outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline-offset: 3px;
   border-radius: var(--radius-xs);
 }
 
@@ -93,23 +103,234 @@ table {
   top: var(--space-base);
 }
 
-/* Shared layout primitives used across pages */
+/* ============================================================
+   Layout primitives
+   ============================================================ */
 
 .wrap {
   width: 100%;
-  max-width: 72rem;
+  max-width: 74rem;
   margin-inline: auto;
   padding-inline: var(--space-xl);
 }
+
+.wrap-narrow {
+  max-width: 46rem;
+}
+
+/* Generous, varied vertical rhythm — sections breathe. */
+.section {
+  padding-block: clamp(var(--space-5xl), 3vw + var(--space-4xl), calc(var(--space-6xl) + var(--space-4xl)));
+}
+
+.section-tight {
+  padding-block: clamp(var(--space-4xl), 2vw + var(--space-3xl), var(--space-6xl));
+}
+
+/* Section header block used across pages. */
+.section-head {
+  max-width: 40rem;
+}
+
+.section-head.center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.section-head h2 {
+  font-family: var(--font-family-display);
+  font-weight: var(--text-display-small-weight);
+  font-size: clamp(var(--text-headline-medium-size), 2.2vw + 1rem, var(--text-display-small-size));
+  line-height: var(--text-headline-large-line-height);
+  letter-spacing: var(--text-display-large-tracking);
+  color: var(--color-on-background);
+  margin-top: var(--space-base);
+  text-wrap: balance;
+}
+
+.section-head p {
+  margin-top: var(--space-base);
+  color: var(--color-on-surface-variant);
+  font-size: var(--text-body-large-size);
+  max-width: 52ch;
+}
+
+.section-head.center p {
+  margin-inline: auto;
+}
+
+/* ============================================================
+   Eyebrow / badge
+   ============================================================ */
 
 .eyebrow {
   font-family: var(--font-family-ui);
   font-weight: 700;
   font-size: var(--text-label-large-size);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-secondary);
 }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-outline-variant);
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  font-family: var(--font-family-ui);
+  font-weight: 700;
+  font-size: var(--text-label-medium-size);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+}
+
+.badge .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+/* Star-glyph size utilities (global so they reach StarGlyph's forwarded class;
+   scoped parent styles cannot target a child component's element). */
+.star-xs { width: 11px; height: 11px; }
+.star-sm { width: 13px; height: 13px; }
+.star-md { width: 15px; height: 15px; }
+.star-lg { width: 20px; height: 20px; }
+.star-xl { width: 26px; height: 26px; }
+
+/* ============================================================
+   Buttons — island / button-in-button pattern
+   ============================================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  text-decoration: none;
+  font-family: var(--font-family-ui);
+  font-weight: 700;
+  font-size: var(--text-label-large-size);
+  line-height: 1;
+  border-radius: var(--radius-full);
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    transform var(--duration-base) var(--easing-emphasized),
+    background var(--duration-base) var(--easing-standard),
+    border-color var(--duration-base) var(--easing-standard),
+    color var(--duration-base) var(--easing-standard);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-right: calc(var(--space-sm) * -1);
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--easing-emphasized);
+}
+
+.btn:hover .btn-icon {
+  transform: translate(2px, -1px) scale(1.05);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--color-primary) 88%, var(--color-on-background));
+}
+
+.btn-primary .btn-icon {
+  background: color-mix(in srgb, var(--color-on-primary) 14%, transparent);
+}
+
+.btn-ghost {
+  border-color: var(--color-outline);
+  color: var(--color-on-background);
+  background: transparent;
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.btn-ghost .btn-icon {
+  background: color-mix(in srgb, var(--color-on-background) 8%, transparent);
+}
+
+/* ============================================================
+   Double-bezel surface (machined-hardware framing)
+   ============================================================ */
+
+.bezel {
+  border-radius: var(--radius-xl);
+  padding: 6px;
+  background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+  border: 1px solid var(--color-outline-variant);
+}
+
+.bezel > .bezel-core {
+  border-radius: calc(var(--radius-xl) - 6px);
+  background: var(--color-surface);
+  height: 100%;
+}
+
+/* Tonal-lift surface (dark theme = tint, light theme = soft shadow) */
+.lift {
+  background:
+    linear-gradient(color-mix(in srgb, var(--color-primary) 5%, transparent), color-mix(in srgb, var(--color-primary) 5%, transparent)),
+    var(--color-surface);
+  border: 1px solid var(--color-outline-variant);
+}
+
+@media (prefers-color-scheme: light) {
+  .lift {
+    background: var(--color-surface);
+    box-shadow: var(--elevation-2-shadow);
+  }
+}
+
+/* ============================================================
+   Scroll-reveal (opt-in, motion-safe)
+   ============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Gated on `.js` so content is never hidden when scripts don't run. */
+  :root.js .reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+      opacity var(--duration-slower) var(--easing-decelerate),
+      transform var(--duration-slower) var(--easing-decelerate);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  :root.js .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Prose (privacy, docs)
+   ============================================================ */
 
 .prose h2 {
   font-family: var(--font-family-display);
@@ -117,8 +338,9 @@ table {
   font-size: var(--text-headline-medium-size);
   line-height: var(--text-headline-medium-line-height);
   color: var(--color-on-background);
-  margin-top: var(--space-4xl);
+  margin-top: var(--space-5xl);
   margin-bottom: var(--space-base);
+  text-wrap: balance;
 }
 
 .prose h2:first-child {
@@ -128,11 +350,13 @@ table {
 .prose p {
   margin-bottom: var(--space-lg);
   color: var(--color-on-surface-variant);
-  max-width: 62ch;
+  max-width: 68ch;
+  font-size: var(--text-body-large-size);
 }
 
 .prose strong {
   color: var(--color-on-background);
+  font-weight: 700;
 }
 
 .prose a {
@@ -143,4 +367,16 @@ table {
 
 .prose a:hover {
   text-decoration-color: currentColor;
+}
+
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.prose p code {
+  background: var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-xs);
 }

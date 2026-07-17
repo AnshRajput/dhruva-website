@@ -1,0 +1,42 @@
+---
+// Characters — personas with their own system prompts and memory.
+import StarGlyph from '../StarGlyph.astro';
+import BottomNav from './BottomNav.astro';
+---
+
+<div class="mk-appbar">
+  <span class="mk-title">Characters</span>
+  <span class="mk-spacer"></span>
+  <span class="mk-chip">+ New</span>
+</div>
+
+<div class="mk-body">
+  <div class="mk-avatars">
+    <div class="mk-avatar">
+      <span class="mk-face">रा</span>
+      <span class="mk-name">Rasa</span>
+      <span class="mk-sub">Hindi poetry tutor</span>
+    </div>
+    <div class="mk-avatar">
+      <span class="mk-face blue">M</span>
+      <span class="mk-name">Mentor</span>
+      <span class="mk-sub">Socratic, asks first</span>
+    </div>
+    <div class="mk-avatar">
+      <span class="mk-face ember">DM</span>
+      <span class="mk-name">Dungeon Master</span>
+      <span class="mk-sub">Keeps the campaign log</span>
+    </div>
+    <div class="mk-avatar" style="border-style:dashed; align-items:center; justify-content:center; color:var(--color-on-surface-variant);">
+      <StarGlyph class="star-md" />
+      <span class="mk-sub" style="text-align:center;">Craft a persona</span>
+    </div>
+  </div>
+
+  <div class="mk-rowcard" style="margin-top:2px;">
+    <div class="mk-eyebrow">System prompt · Mentor</div>
+    <div class="mk-sub" style="color:var(--color-on-surface);">“You never give the answer first. You ask one sharp question, wait, then guide.”</div>
+  </div>
+</div>
+
+<BottomNav active="chat" />

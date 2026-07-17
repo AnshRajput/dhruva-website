@@ -1,0 +1,29 @@
+---
+// Vision — point at a photo or screenshot and ask. On-device image
+// understanding; the plate shows detection boxes as a stylized abstraction.
+---
+
+<div class="mk-appbar">
+  <span class="mk-back">‹</span>
+  <span class="mk-chip">SmolVLM2-2.2B ▾</span>
+</div>
+
+<div class="mk-body">
+  <div class="mk-plate">
+    <span class="mk-taglabel" style="left:14%; top:24%;">boarding pass</span>
+    <span class="mk-tagbox" style="left:14%; top:24%; width:52%; height:34%;"></span>
+    <span class="mk-tagbox" style="left:60%; top:58%; width:28%; height:22%; border-color:var(--color-secondary);"></span>
+  </div>
+
+  <div class="mk-bubble user" style="align-self:flex-end;">What gate and time is on this pass?</div>
+  <div class="mk-bubble bot">
+    Gate <strong style="color:var(--color-on-surface);">B12</strong>, boarding <strong style="color:var(--color-on-surface);">18:40</strong>. The seat reads 24A, a window on the left.
+  </div>
+  <div class="mk-meta"><span>on-device · nothing uploaded</span></div>
+</div>
+
+<div class="mk-composer">
+  <svg class="mk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M3 17l5-4 4 3 3-2 6 5"/></svg>
+  <span class="mk-field">Ask about the image…</span>
+  <span class="mk-send"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3l18 9-18 9 4-9-4-9z"/></svg></span>
+</div>

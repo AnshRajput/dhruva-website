@@ -1,0 +1,34 @@
+---
+// AI toolbox — small local tools the model reaches for mid-conversation:
+// alarms, notes, quick calculations. The tool call renders inline, honestly.
+import StarGlyph from '../StarGlyph.astro';
+---
+
+<div class="mk-appbar">
+  <span class="mk-back">‹</span>
+  <span class="mk-chip">Llama-3.2-3B ▾</span>
+  <span class="mk-spacer"></span>
+  <span class="mk-more" aria-hidden="true">⋮</span>
+</div>
+
+<div class="mk-body">
+  <div class="mk-bubble user" style="align-self:flex-end;">Wake me 20 min before sunrise and note it.</div>
+
+  <div class="mk-rowcard" style="border-color:var(--color-primary); background:var(--color-primary-container);">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <StarGlyph class="star-xs" style="color:var(--color-on-primary-container);" />
+      <span class="mk-name" style="color:var(--color-on-primary-container);">Tool · set_alarm</span>
+    </div>
+    <div class="mk-mono" style="color:var(--color-on-primary-container); opacity:0.9; margin-top:4px;">{"{ time: '05:32', label: 'Sunrise trek' }"}</div>
+  </div>
+
+  <div class="mk-bubble bot">
+    Done — alarm set for <strong style="color:var(--color-on-surface);">5:32 AM</strong> and saved to Notes. All handled on your phone; no assistant server involved.
+  </div>
+  <div class="mk-meta"><span>2 tools · local intents</span></div>
+</div>
+
+<div class="mk-composer">
+  <span class="mk-field">Message Dhruva…</span>
+  <span class="mk-send"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3l18 9-18 9 4-9-4-9z"/></svg></span>
+</div>

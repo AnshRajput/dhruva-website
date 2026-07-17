@@ -1,0 +1,54 @@
+---
+// Offline chat — flagship design preview. Mirrors docs/design/chat-spec.md:
+// model chip + live tok/s ticker, streaming bubble, collapsible reasoning,
+// code well with copy, star typing indicator, trust mark, composer.
+import StarGlyph from '../StarGlyph.astro';
+---
+
+<div class="mk-appbar">
+  <span class="mk-back">‹</span>
+  <span class="mk-chip">Llama-3.2-1B <span aria-hidden="true">▾</span></span>
+  <span class="mk-spacer"></span>
+  <span class="mk-tokps">38.6 tok/s</span>
+  <span class="mk-more" aria-hidden="true">⋮</span>
+</div>
+
+<div class="mk-body">
+  <div class="mk-bubble user">Explain a stack in one line, then show a Dart example.</div>
+
+  <div class="mk-reason">
+    <span class="caret" aria-hidden="true">▸</span>
+    <span>Reasoning (4s)</span>
+  </div>
+
+  <div class="mk-bubble bot">
+    A stack is a last-in, first-out collection: the last item you push is the first you pop.
+    <div class="mk-code">
+      <div class="mk-code-head">
+        <span>dart</span>
+        <span aria-hidden="true">⧉ copy</span>
+      </div>
+      <pre><span class="tok-key">final</span> stack = &lt;<span class="tok-key">int</span>&gt;[];
+stack.<span class="tok-str">add</span>(1);   <span class="tok-str">// push</span>
+stack.<span class="tok-str">removeLast</span>(); <span class="tok-str">// pop</span></pre>
+    </div>
+  </div>
+  <div class="mk-meta"><span>just now</span><span class="mk-dot">·</span><span>38.6 tok/s</span></div>
+
+  <div class="mk-typing" aria-hidden="true">
+    <StarGlyph class="mk-star" />
+    <StarGlyph class="mk-star" />
+    <StarGlyph class="mk-star" />
+  </div>
+</div>
+
+<div class="mk-trust">
+  <StarGlyph class="mk-star" />
+  <span>Runs 100% on your device</span>
+</div>
+
+<div class="mk-composer">
+  <svg class="mk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+  <span class="mk-field">Message Dhruva…</span>
+  <span class="mk-send"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3l18 9-18 9 4-9-4-9z"/></svg></span>
+</div>

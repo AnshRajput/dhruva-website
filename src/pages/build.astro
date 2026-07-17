@@ -1,0 +1,558 @@
+---
+import Base from '../layouts/Base.astro';
+import StarGlyph from '../components/StarGlyph.astro';
+
+const appRepo = 'https://github.com/AnshRajput/dhruva-app';
+const siteRepo = 'https://github.com/AnshRajput/dhruva-website';
+
+// Sourced from orchestra/LOOP_LOG.md (loops 0–3 CLOSED) + TASKS.md roadmap,
+// translated to public-friendly language. No internal jargon, no invented
+// progress — pre-alpha and honest about it.
+const shipped = [
+  {
+    loop: 'Loop 0',
+    title: 'Research & identity',
+    blurb:
+      'Verified the hard technical choices against real sources, named the app after the pole star, and locked a design system and roadmap before a line of feature code.',
+    points: ['Engine + architecture decided (ADR-001/002)', 'Design tokens + brand ratified', 'MVP scope frozen'],
+  },
+  {
+    loop: 'Loop 1',
+    title: 'Skeleton & CI',
+    blurb:
+      'Both repositories scaffolded, building, and gated by continuous integration from day one — and this website went live on its first deploy.',
+    points: ['Flutter app + strict lints', 'CI green on both repos', 'Website live on GitHub Pages'],
+  },
+  {
+    loop: 'Loop 2',
+    title: 'Engine online',
+    blurb:
+      'Real quantized models now load and stream on-device through our own abstraction — off the UI thread, with a working cancel and a proven memory-safe path.',
+    points: ['GGUF loads + streams locally', 'Runs off the root isolate', '39 engine tests, real-model smoke'],
+  },
+  {
+    loop: 'Loop 3',
+    title: 'Model hub',
+    blurb:
+      'Browse Hugging Face inside the app, get an honest device verdict before you download, and pull models over resumable, integrity-checked connections — or import your own.',
+    points: ['In-app Hugging Face browse', 'Device-aware verdict chips', 'Resumable verified downloads'],
+  },
+];
+
+const current = {
+  loop: 'Loop 4',
+  title: 'Chat experience',
+  blurb:
+    'The conversation itself: streaming replies with a live tokens-per-second readout, markdown and code rendering, collapsible reasoning, on-device history with folders and search, and per-conversation settings. This is the last loop before the first tagged milestone.',
+  points: [
+    'Streaming with live tok/s',
+    'Markdown, code blocks, reasoning transparency',
+    'History, search, sampling controls, export',
+  ],
+};
+
+const ahead = [
+  { loop: 'Loop 5', title: 'Characters', note: 'Personas with their own prompts and memory' },
+  { loop: 'Loop 6', title: 'Voice', note: 'Turn-taking, interruption, on-device STT + TTS' },
+  { loop: 'Loop 7', title: 'Vision', note: 'Ask questions about photos and screenshots' },
+  { loop: 'Loop 8', title: 'Image generation', note: 'Quantized diffusion, entirely local' },
+  { loop: 'Loop 9', title: 'Documents', note: 'Retrieval-augmented chat over your PDFs' },
+  { loop: 'Loop 10', title: 'Toolbox', note: 'Local tools: alarms, notes, calculations' },
+  { loop: 'Loop 10.5', title: 'Playground + AI news', note: 'Compare models, tune sampling, opt-in digest' },
+  { loop: 'Loop 11', title: 'Polish + arena', note: 'The craft pass across every surface' },
+  { loop: 'Loop 12', title: 'Website', note: 'This site, raised to a premium bar' },
+  { loop: 'Loop 13', title: 'Distribution', note: 'First installable build via Firebase App Distribution' },
+  { loop: 'Loop 14', title: 'Hardening + handover', note: 'Edge cases, docs, and long-term care' },
+];
+---
+
+<Base
+  title="Build in public — Dhruva AI"
+  description="The Dhruva AI build, loop by loop: what's shipped (engine, model hub), what's in progress (chat), and the road ahead to v0.1.0-alpha. Pre-alpha, open source, honest."
+>
+  <header class="page-head">
+    <div class="sky" aria-hidden="true"><div class="stars"></div></div>
+    <div class="wrap page-head-inner">
+      <span class="badge"><span class="dot"></span> Built in public · pre-alpha</span>
+      <h1>The story so far</h1>
+      <p class="lede">
+        Dhruva is built in the open, one loop at a time — plan, build, test, review, ship. Here's
+        exactly what's done, what's underway, and what's coming. No installable build exists yet;
+        the first one arrives at Loop 13 via Firebase App Distribution.
+      </p>
+    </div>
+  </header>
+
+  <!-- Shipped + current -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="rail">
+        {
+          shipped.map((entry) => (
+            <article class="node reveal">
+              <div class="node-marker" aria-hidden="true">
+                <StarGlyph class="star-lg" />
+              </div>
+              <div class="node-body lift">
+                <div class="node-head">
+                  <span class="node-loop">{entry.loop}</span>
+                  <span class="node-status done">Shipped</span>
+                </div>
+                <h2>{entry.title}</h2>
+                <p>{entry.blurb}</p>
+                <ul class="node-points">
+                  {entry.points.map((p) => (
+                    <li><StarGlyph class="star-xs" />{p}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+
+        <article class="node node-current reveal">
+          <div class="node-marker current" aria-hidden="true">
+            <StarGlyph class="star-lg" />
+          </div>
+          <div class="node-body lift highlight">
+            <div class="node-head">
+              <span class="node-loop">{current.loop}</span>
+              <span class="node-status live"><span class="live-dot"></span>In progress</span>
+            </div>
+            <h2>{current.title}</h2>
+            <p>{current.blurb}</p>
+            <ul class="node-points">
+              {current.points.map((p) => (
+                <li><StarGlyph class="star-xs" />{p}</li>
+              ))}
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Milestone -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="milestone reveal">
+        <StarGlyph class="star-xl ms-star" />
+        <div>
+          <p class="eyebrow">Next milestone</p>
+          <h2>v0.1.0-alpha — the MVP gate</h2>
+          <p>Install, browse Hugging Face, download a recommended model, and have a genuinely pleasant offline chat. That's the bar the first tagged release has to clear.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Road ahead -->
+  <section class="section road">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">The road ahead</p>
+        <h2>Every feature on the landing page, earned one loop at a time</h2>
+      </div>
+      <ol class="ahead-grid reveal">
+        {
+          ahead.map((entry) => (
+            <li class="ahead-item">
+              <span class="ahead-loop">{entry.loop}</span>
+              <span class="ahead-title">{entry.title}</span>
+              <span class="ahead-note">{entry.note}</span>
+            </li>
+          ))
+        }
+        <li class="ahead-item continuous">
+          <span class="ahead-loop">Then</span>
+          <span class="ahead-title">Continuous mode</span>
+          <span class="ahead-note">Shipped, maintained, and improved in the open</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Follow along -->
+  <section class="section follow">
+    <div class="wrap follow-inner reveal">
+      <div class="section-head center">
+        <p class="eyebrow">Follow along</p>
+        <h2>It's all public. Come build it with us.</h2>
+        <p>Star the repos, open an issue, or just watch it take shape. Contributions and sharp questions are both welcome.</p>
+      </div>
+      <div class="follow-links">
+        <a class="link-card lift" href={appRepo} rel="noopener">
+          <span class="link-eyebrow">The app</span>
+          <span class="link-repo">AnshRajput/dhruva-app</span>
+          <span class="link-note">Flutter · Android + iOS · Apache-2.0</span>
+        </a>
+        <a class="link-card lift" href={siteRepo} rel="noopener">
+          <span class="link-eyebrow">This website</span>
+          <span class="link-repo">AnshRajput/dhruva-website</span>
+          <span class="link-note">Astro · static · Apache-2.0</span>
+        </a>
+        <a class="link-card lift" href={`${appRepo}/issues`} rel="noopener">
+          <span class="link-eyebrow">Ideas & bugs</span>
+          <span class="link-repo">Issues welcome</span>
+          <span class="link-note">Feature requests, questions, reports</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(var(--space-5xl), 9vw, calc(var(--space-6xl) + var(--space-3xl))) var(--space-3xl);
+    border-bottom: 1px solid var(--color-outline-variant);
+    background: radial-gradient(110% 90% at 50% -10%, var(--color-surface), var(--color-background) 60%);
+  }
+
+  .sky {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .stars {
+    position: absolute;
+    inset: 0;
+    opacity: 0.55;
+    background-image:
+      radial-gradient(1.5px 1.5px at 18% 30%, var(--color-midnight-200) 99%, transparent),
+      radial-gradient(1px 1px at 44% 20%, var(--color-star-gold-200) 99%, transparent),
+      radial-gradient(1.5px 1.5px at 70% 44%, var(--color-midnight-200) 99%, transparent),
+      radial-gradient(1px 1px at 88% 24%, var(--color-midnight-300) 99%, transparent),
+      radial-gradient(1px 1px at 8% 60%, var(--color-midnight-300) 99%, transparent);
+  }
+
+  @media (prefers-color-scheme: light) {
+    .stars {
+      opacity: 0.22;
+    }
+  }
+
+  .page-head h1 {
+    font-family: var(--font-family-display);
+    font-weight: var(--text-display-medium-weight);
+    font-size: clamp(var(--text-display-small-size), 5vw, var(--text-display-large-size));
+    line-height: var(--text-display-medium-line-height);
+    letter-spacing: var(--text-display-large-tracking);
+    color: var(--color-on-background);
+    margin-top: var(--space-base);
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin-top: var(--space-base);
+    max-width: 62ch;
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-large-size);
+  }
+
+  /* ---------- Timeline rail ---------- */
+  .rail {
+    position: relative;
+    max-width: 46rem;
+    margin-inline: auto;
+    padding-left: clamp(var(--space-2xl), 6vw, var(--space-4xl));
+  }
+
+  .rail::before {
+    content: '';
+    position: absolute;
+    top: var(--space-md);
+    bottom: var(--space-md);
+    left: clamp(11px, 3vw, 19px);
+    width: 2px;
+    background: linear-gradient(var(--color-primary), color-mix(in srgb, var(--color-secondary) 60%, transparent));
+    opacity: 0.6;
+  }
+
+  .node {
+    position: relative;
+    padding-bottom: var(--space-2xl);
+  }
+
+  .node:last-child {
+    padding-bottom: 0;
+  }
+
+  .node-marker {
+    position: absolute;
+    left: calc(clamp(var(--space-2xl), 6vw, var(--space-4xl)) * -1);
+    top: var(--space-md);
+    width: clamp(24px, 6vw, 40px);
+    display: grid;
+    place-items: center;
+  }
+
+  .node-marker.current {
+    border-radius: var(--radius-full);
+  }
+
+  .node-marker.current::before {
+    content: '';
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .node-marker.current::before {
+      animation: pulse 2.6s var(--easing-standard) infinite;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.18); opacity: 0.4; }
+  }
+
+  .node-body {
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+  }
+
+  .node-body.highlight {
+    border-color: var(--color-primary);
+  }
+
+  .node-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .node-loop {
+    font-weight: 700;
+    font-size: var(--text-label-large-size);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+  }
+
+  .node-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-label-small-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px var(--space-sm);
+    border-radius: var(--radius-full);
+  }
+
+  .node-status.done {
+    background: color-mix(in srgb, var(--color-success) 20%, transparent);
+    color: var(--color-success);
+  }
+
+  .node-status.live {
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .live-dot {
+      animation: pulse 2s var(--easing-standard) infinite;
+    }
+  }
+
+  .node-body h2 {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: var(--text-headline-small-size);
+    color: var(--color-on-background);
+    margin-top: var(--space-sm);
+  }
+
+  .node-body p {
+    margin-top: var(--space-sm);
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+    max-width: 60ch;
+  }
+
+  .node-points {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-lg);
+    margin-top: var(--space-base);
+  }
+
+  .node-points li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-body-small-size);
+    font-weight: 600;
+    color: var(--color-on-surface-variant);
+  }
+
+  /* ---------- Milestone ---------- */
+  .milestone {
+    max-width: 46rem;
+    margin-inline: auto;
+    display: flex;
+    gap: var(--space-lg);
+    align-items: flex-start;
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 7%, var(--color-background));
+  }
+
+  .milestone :global(.ms-star) {
+    margin-top: var(--space-xs);
+  }
+
+  .milestone h2 {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: var(--text-headline-small-size);
+    color: var(--color-on-background);
+    margin-block: var(--space-xs) var(--space-sm);
+  }
+
+  .milestone p {
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+    max-width: 56ch;
+  }
+
+  /* ---------- Road ahead ---------- */
+  .road {
+    border-top: 1px solid var(--color-outline-variant);
+    background: var(--color-surface);
+  }
+
+  .ahead-grid {
+    margin-top: var(--space-3xl);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-base);
+    counter-reset: none;
+  }
+
+  .ahead-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    background: var(--color-background);
+    border: 1px solid var(--color-outline-variant);
+    transition: border-color var(--duration-base) var(--easing-standard), transform var(--duration-base) var(--easing-emphasized);
+  }
+
+  .ahead-item:hover {
+    border-color: var(--color-secondary);
+    transform: translateY(-2px);
+  }
+
+  .ahead-loop {
+    font-weight: 700;
+    font-size: var(--text-label-medium-size);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+  }
+
+  .ahead-title {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: var(--text-title-large-size);
+    color: var(--color-on-background);
+  }
+
+  .ahead-note {
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-small-size);
+  }
+
+  .ahead-item.continuous {
+    border-style: dashed;
+    border-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--color-background));
+  }
+
+  .ahead-item.continuous .ahead-loop {
+    color: var(--color-primary);
+  }
+
+  /* ---------- Follow ---------- */
+  .follow {
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  .follow-links {
+    margin-top: var(--space-3xl);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-base);
+  }
+
+  .link-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: border-color var(--duration-base) var(--easing-standard), transform var(--duration-base) var(--easing-emphasized);
+  }
+
+  .link-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-3px);
+  }
+
+  .link-eyebrow {
+    font-size: var(--text-label-medium-size);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+  }
+
+  .link-repo {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: var(--text-title-large-size);
+    color: var(--color-on-background);
+  }
+
+  .link-note {
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-small-size);
+  }
+
+  @media (max-width: 52rem) {
+    .ahead-grid,
+    .follow-links {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 40rem) and (max-width: 52rem) {
+    .ahead-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

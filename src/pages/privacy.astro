@@ -7,9 +7,11 @@ import Base from '../layouts/Base.astro';
   description="Why Dhruva AI never phones home: zero telemetry, downloads-only network, open source. The privacy manifesto behind the on-device AI app."
 >
   <header class="page-head">
-    <div class="wrap">
-      <p class="eyebrow">Privacy</p>
+    <div class="sky" aria-hidden="true"><div class="stars"></div></div>
+    <div class="wrap page-head-inner">
+      <span class="badge"><span class="dot"></span> Privacy</span>
       <h1>Why we built an AI that never phones home</h1>
+      <p class="lede">The privacy manifesto behind Dhruva: zero telemetry, a downloads-only network, and an open codebase you can audit. Not a policy you're asked to trust, an architecture you can check.</p>
     </div>
   </header>
 
@@ -79,26 +81,62 @@ import Base from '../layouts/Base.astro';
 
 <style>
   .page-head {
-    padding-block: var(--space-4xl) var(--space-2xl);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(var(--space-5xl), 8vw, calc(var(--space-6xl) + var(--space-2xl))) var(--space-3xl);
     border-bottom: 1px solid var(--color-outline-variant);
+    background: radial-gradient(110% 90% at 50% -10%, var(--color-surface), var(--color-background) 62%);
+  }
+
+  .sky {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .stars {
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 32%, var(--color-midnight-200) 99%, transparent),
+      radial-gradient(1px 1px at 48% 18%, var(--color-star-gold-200) 99%, transparent),
+      radial-gradient(1.5px 1.5px at 74% 44%, var(--color-midnight-200) 99%, transparent),
+      radial-gradient(1px 1px at 90% 26%, var(--color-midnight-300) 99%, transparent);
+  }
+
+  @media (prefers-color-scheme: light) {
+    .stars {
+      opacity: 0.2;
+    }
   }
 
   .page-head h1 {
     font-family: var(--font-family-display);
-    font-weight: var(--text-display-small-weight);
-    font-size: var(--text-display-small-size);
-    line-height: var(--text-display-small-line-height);
+    font-weight: var(--text-display-medium-weight);
+    font-size: clamp(var(--text-display-small-size), 5vw, var(--text-display-large-size));
+    line-height: var(--text-display-medium-line-height);
+    letter-spacing: var(--text-display-large-tracking);
     color: var(--color-on-background);
-    margin-top: var(--space-sm);
+    margin-top: var(--space-base);
     max-width: 22ch;
+    text-wrap: balance;
+  }
+
+  .lede {
+    margin-top: var(--space-base);
+    max-width: 60ch;
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-large-size);
   }
 
   .section {
-    padding-block: var(--space-4xl) var(--space-6xl);
+    padding-block: var(--space-5xl) var(--space-6xl);
   }
 
   .manifesto {
-    max-width: 42rem;
+    max-width: 44rem;
   }
 
   .manifesto code {
