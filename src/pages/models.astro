@@ -1,134 +1,271 @@
 ---
 import Base from '../layouts/Base.astro';
+import StarGlyph from '../components/StarGlyph.astro';
 import { STARTER_MODELS } from '../data/models';
+
+// RAM tiers mirror the app's file-size-bucket verdict logic.
+const tiers = [
+  { klass: '1B class', floor: '4 GB', size: 'up to ~1.2 GB', note: 'Snappy chat and summarization on most modern phones.' },
+  { klass: '3B class', floor: '6 GB', size: 'up to ~3 GB', note: 'Stronger reasoning; wants a little headroom.' },
+  { klass: '4B+', floor: '8 GB', size: 'larger than ~3 GB', note: 'Flagship devices; the most capable local models.' },
+];
+
+const quants = [
+  { name: 'Q4_K_M', blurb: 'The sweet spot Dhruva recommends: ~4-bit, K-quant medium. Best size-to-quality trade for phones.' },
+  { name: 'Q5_K_M', blurb: 'A step up in fidelity for a bigger file. Worth it when you have the RAM to spare.' },
+  { name: 'Q8_0 / mmproj', blurb: 'Near-lossless. Used for the small vision projector that rides alongside a base model.' },
+];
+
+const ramClass = (floor: string) =>
+  floor.startsWith('4') ? 'floor-1b' : floor.startsWith('6') ? 'floor-3b' : floor.startsWith('8') ? 'floor-4b' : 'floor-none';
 ---
 
 <Base
   title="Supported models — Dhruva AI"
-  description="Verified starter models for Dhruva AI: repo IDs, sizes, and RAM guidance for on-device GGUF chat, vision, and embedding models."
+  description="Verified starter models for Dhruva AI: repo IDs, sizes, and RAM guidance for on-device GGUF chat, vision, and embedding models — plus how device verdicts and quantization work."
 >
   <header class="page-head">
-    <div class="wrap">
-      <p class="eyebrow">Models</p>
+    <div class="wrap page-head-inner">
+      <span class="badge"><span class="dot"></span> Models</span>
       <h1>Bring any GGUF. Start with these.</h1>
       <p class="lede">
-        Dhruva can load any quantized GGUF model you download from Hugging Face — there's no
-        curated-only walled garden. The table below is the starter catalog: models we've verified
-        work well on-device, with real repo IDs and honest RAM guidance.
+        Dhruva loads any quantized GGUF you download from Hugging Face — there's no curated-only
+        walled garden. Below is the starter catalog: models verified to run well on-device, with
+        real repo IDs and honest RAM guidance.
       </p>
     </div>
   </header>
 
-  <section class="section">
+  <!-- RAM tier band -->
+  <section class="section-tight">
     <div class="wrap">
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">Model</th>
-              <th scope="col">Repo</th>
-              <th scope="col">Role</th>
-              <th scope="col">Quant</th>
-              <th scope="col">Approx. size</th>
-              <th scope="col">RAM floor</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              STARTER_MODELS.map((m) => (
-                <tr>
-                  <td>
-                    <span class="model-name">{m.name}</span>
-                    <span class="use-case">{m.useCase}</span>
-                  </td>
-                  <td>
-                    <a href={`https://huggingface.co/${m.repo}`} rel="noopener" class="mono">
-                      {m.repo}
-                    </a>
-                  </td>
-                  <td>{m.role}</td>
-                  <td class="mono">{m.quant}</td>
-                  <td>{m.approxSize}</td>
-                  <td>
-                    <span class:list={['tier', { negligible: m.ramFloor === 'negligible' }]}>
-                      {m.ramFloor}
-                    </span>
-                  </td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+      <div class="section-head reveal">
+        <p class="eyebrow">How much phone you need</p>
+        <h2>Three tiers, picked by file size</h2>
+      </div>
+      <div class="tiers reveal">
+        {
+          tiers.map((t) => (
+            <article class="tier-card lift">
+              <div class="tier-top">
+                <span class="tier-class">{t.klass}</span>
+                <span class="tier-floor">{t.floor}+ RAM</span>
+              </div>
+              <p class="tier-size">Files {t.size}</p>
+              <p class="tier-note">{t.note}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog table -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Starter catalog</p>
+        <h2>Verified repos, honest sizes</h2>
+      </div>
+      <div class="table-scroll bezel reveal">
+        <div class="bezel-core">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Model</th>
+                <th scope="col">Repo</th>
+                <th scope="col">Role</th>
+                <th scope="col">Quant</th>
+                <th scope="col">Size</th>
+                <th scope="col">RAM floor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                STARTER_MODELS.map((m) => (
+                  <tr>
+                    <td>
+                      <span class="model-name">{m.name}</span>
+                      <span class="use-case">{m.useCase}</span>
+                    </td>
+                    <td>
+                      <a href={`https://huggingface.co/${m.repo}`} rel="noopener" class="mono">
+                        {m.repo}
+                      </a>
+                    </td>
+                    <td>
+                      <span class:list={['role-chip', `role-${m.role.toLowerCase()}`]}>{m.role}</span>
+                    </td>
+                    <td class="mono quant">{m.quant}</td>
+                    <td class="size">{m.approxSize}</td>
+                    <td>
+                      <span class:list={['floor', ramClass(m.ramFloor)]}>{m.ramFloor}</span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
       </div>
       <p class="table-note">
-        Sizes are approximate Q4_K_M file sizes at time of writing — always check the exact size
-        on the model's Hugging Face page before downloading, especially on a metered connection.
+        Sizes are approximate Q4_K_M file sizes at time of writing — always check the exact size on
+        the model's Hugging Face page before downloading, especially on a metered connection.
       </p>
     </div>
   </section>
 
+  <!-- Verdicts -->
   <section class="section verdicts">
-    <div class="wrap prose">
-      <h2>How device verdicts work</h2>
-      <p>
-        When you open a model in the hub, Dhruva shows a verdict badge — <strong>Comfortable</strong>, <strong>Possible</strong>, or <strong>Not recommended</strong> — instead of making you guess whether it'll run. The logic is deliberately simple and file-size-based, not a black box:
-      </p>
-      <ol class="verdict-steps">
+    <div class="wrap verdicts-inner">
+      <div class="section-head reveal">
+        <p class="eyebrow">Before you download</p>
+        <h2>How device verdicts work</h2>
+        <p>
+          Open a model in the hub and Dhruva shows a verdict badge instead of making you guess. The
+          logic is deliberately simple and file-size-based, not a black box.
+        </p>
+      </div>
+
+      <div class="verdict-legend reveal">
+        <span class="mk-legend good">Comfortable</span>
+        <span class="mk-legend ok">Possible</span>
+        <span class="mk-legend no">Not recommended</span>
+      </div>
+
+      <ol class="verdict-steps reveal">
         <li>
-          Dhruva looks at the quantized <strong>file size</strong> of the GGUF you're about to download and buckets it: up to 1.2&nbsp;GB is the "1B class", up to 3&nbsp;GB is the "3B class", anything larger is "4B+".
+          <span class="step-n">1</span>
+          <p>Dhruva reads the quantized <strong>file size</strong> of the GGUF and buckets it: up to 1.2&nbsp;GB is the "1B class", up to 3&nbsp;GB the "3B class", larger is "4B+".</p>
         </li>
         <li>
-          Each bucket has a RAM floor: <strong>4&nbsp;GB</strong> for the 1B class, <strong>6&nbsp;GB</strong> for the 3B class, <strong>8&nbsp;GB</strong> for 4B+.
+          <span class="step-n">2</span>
+          <p>Each bucket has a RAM floor: <strong>4&nbsp;GB</strong> for 1B, <strong>6&nbsp;GB</strong> for 3B, <strong>8&nbsp;GB</strong> for 4B+.</p>
         </li>
         <li>
-          Your device's total RAM is compared against that floor. Below the floor → <strong>Not recommended</strong> (loading may run out of memory). At or above the floor but under 1.5&times; the floor → <strong>Possible</strong> (it'll run, with little headroom — expect it to be slower or crowd out other apps). At 1.5&times; the floor or above → <strong>Comfortable</strong>.
+          <span class="step-n">3</span>
+          <p>Your device's RAM is compared to that floor. Below it → <strong>Not recommended</strong>. At the floor but under 1.5&times; → <strong>Possible</strong> (little headroom, expect it slower). At 1.5&times; or above → <strong>Comfortable</strong>.</p>
         </li>
       </ol>
-      <p>
-        File size, not parameter count, drives the bucket — a Q4_K_M quant tracks real memory
-        pressure much more closely than the model's advertised parameter count does. Vision models
-        include their mmproj file in the size that gets bucketed, since it's loaded alongside the
-        base model.
+
+      <p class="verdict-foot">
+        File size, not parameter count, drives the bucket — a Q4_K_M quant tracks real memory pressure
+        far more closely than an advertised parameter count. Vision models include their mmproj file
+        in the bucketed size, since it loads alongside the base model.
       </p>
+    </div>
+  </section>
+
+  <!-- Quant explainer -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">What the quant name means</p>
+        <h2>Why "Q4_K_M" and not the full model</h2>
+        <p>
+          Quantization shrinks a model's weights from 16-bit floats to a few bits each — a fraction of
+          the size and memory, for a small, usually unnoticeable quality cost. It's what makes running
+          a capable model on a phone possible at all.
+        </p>
+      </div>
+      <div class="quants reveal">
+        {
+          quants.map((q) => (
+            <article class="quant-card lift">
+              <div class="quant-name"><StarGlyph class="star-sm" /> {q.name}</div>
+              <p>{q.blurb}</p>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 </Base>
 
 <style>
   .page-head {
-    padding-block: var(--space-4xl) var(--space-2xl);
+    padding-block: clamp(var(--space-5xl), 8vw, calc(var(--space-6xl) + var(--space-2xl))) var(--space-3xl);
     border-bottom: 1px solid var(--color-outline-variant);
+    background: radial-gradient(110% 90% at 50% -10%, var(--color-surface), var(--color-background) 62%);
   }
 
   .page-head h1 {
     font-family: var(--font-family-display);
-    font-weight: var(--text-display-small-weight);
-    font-size: var(--text-display-small-size);
-    line-height: var(--text-display-small-line-height);
+    font-weight: var(--text-display-medium-weight);
+    font-size: clamp(var(--text-display-small-size), 5vw, var(--text-display-large-size));
+    line-height: var(--text-display-medium-line-height);
+    letter-spacing: var(--text-display-large-tracking);
     color: var(--color-on-background);
-    margin-top: var(--space-sm);
-    margin-bottom: var(--space-base);
-    max-width: 18ch;
+    margin-top: var(--space-base);
+    max-width: 20ch;
+    text-wrap: balance;
   }
 
   .lede {
+    margin-top: var(--space-base);
     max-width: 60ch;
     color: var(--color-on-surface-variant);
     font-size: var(--text-body-large-size);
   }
 
-  .section {
-    padding-block: var(--space-4xl);
+  /* Tiers */
+  .tiers {
+    margin-top: var(--space-2xl);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-base);
   }
 
-  .table-scroll {
-    overflow-x: auto;
-    border: 1px solid var(--color-outline-variant);
+  .tier-card {
+    padding: var(--space-xl);
     border-radius: var(--radius-lg);
   }
 
+  .tier-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+
+  .tier-class {
+    font-family: var(--font-family-display);
+    font-weight: 600;
+    font-size: var(--text-title-large-size);
+    color: var(--color-on-background);
+  }
+
+  .tier-floor {
+    font-weight: 700;
+    font-size: var(--text-label-large-size);
+    color: var(--color-primary);
+  }
+
+  .tier-size {
+    margin-top: var(--space-sm);
+    font-size: var(--text-body-small-size);
+    color: var(--color-secondary);
+    font-weight: 600;
+  }
+
+  .tier-note {
+    margin-top: var(--space-sm);
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+  }
+
+  /* Table */
+  .table-scroll {
+    margin-top: var(--space-2xl);
+  }
+
+  .table-scroll .bezel-core {
+    overflow-x: auto;
+  }
+
   table {
-    min-width: 48rem;
+    min-width: 50rem;
   }
 
   th,
@@ -145,15 +282,21 @@ import { STARTER_MODELS } from '../data/models';
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--color-on-surface-variant);
-    background: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface-variant) 55%, transparent);
+    position: sticky;
+    top: 0;
   }
 
   tbody tr:last-child td {
     border-bottom: none;
   }
 
+  tbody tr {
+    transition: background var(--duration-fast) var(--easing-standard);
+  }
+
   tbody tr:hover {
-    background: var(--color-surface);
+    background: color-mix(in srgb, var(--color-surface-variant) 40%, transparent);
   }
 
   .model-name {
@@ -167,6 +310,7 @@ import { STARTER_MODELS } from '../data/models';
     color: var(--color-on-surface-variant);
     font-size: var(--text-body-small-size);
     margin-top: var(--space-xs);
+    max-width: 28ch;
   }
 
   .mono {
@@ -181,18 +325,49 @@ import { STARTER_MODELS } from '../data/models';
     text-decoration: underline;
   }
 
-  .tier {
+  .quant,
+  .size {
+    white-space: nowrap;
+    color: var(--color-on-surface-variant);
+  }
+
+  .role-chip {
+    display: inline-block;
+    padding: 2px var(--space-sm);
+    border-radius: var(--radius-full);
+    font-size: var(--text-label-small-size);
+    font-weight: 700;
+    background: var(--color-surface-variant);
+    color: var(--color-on-surface-variant);
+  }
+
+  .role-chip.role-vision {
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+
+  .role-chip.role-embedding {
+    background: var(--color-tertiary-container);
+    color: var(--color-on-tertiary-container);
+  }
+
+  .floor {
     display: inline-block;
     padding: var(--space-xs) var(--space-sm);
     border-radius: var(--radius-sm);
-    background: var(--color-primary-container);
-    color: var(--color-on-primary-container);
     font-weight: 700;
     font-size: var(--text-label-small-size);
     white-space: nowrap;
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
   }
 
-  .tier.negligible {
+  .floor.floor-3b {
+    background: color-mix(in srgb, var(--color-warning) 24%, transparent);
+    color: var(--color-warning);
+  }
+
+  .floor.floor-none {
     background: var(--color-surface-variant);
     color: var(--color-on-surface-variant);
   }
@@ -201,43 +376,123 @@ import { STARTER_MODELS } from '../data/models';
     margin-top: var(--space-base);
     font-size: var(--text-body-small-size);
     color: var(--color-on-surface-variant);
-    max-width: 60ch;
+    max-width: 62ch;
   }
 
+  /* Verdicts */
   .verdicts {
     background: var(--color-surface);
     border-top: 1px solid var(--color-outline-variant);
   }
 
+  .verdicts-inner {
+    max-width: 52rem;
+  }
+
+  .verdict-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
+  }
+
+  .mk-legend {
+    font-size: var(--text-label-medium-size);
+    font-weight: 700;
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+  }
+
+  .mk-legend.good {
+    background: color-mix(in srgb, var(--color-success) 22%, transparent);
+    color: var(--color-success);
+  }
+
+  .mk-legend.ok {
+    background: var(--color-primary-container);
+    color: var(--color-on-primary-container);
+  }
+
+  .mk-legend.no {
+    background: var(--color-error-container);
+    color: var(--color-on-error-container);
+  }
+
   .verdict-steps {
-    counter-reset: step;
+    margin-top: var(--space-2xl);
     display: flex;
     flex-direction: column;
-    gap: var(--space-base);
-    margin-bottom: var(--space-lg);
+    gap: var(--space-lg);
   }
 
   .verdict-steps li {
-    counter-increment: step;
-    position: relative;
-    padding-left: var(--space-2xl);
-    color: var(--color-on-surface-variant);
-    max-width: 62ch;
+    display: flex;
+    gap: var(--space-base);
+    align-items: flex-start;
   }
 
-  .verdict-steps li::before {
-    content: counter(step);
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 1.5rem;
-    height: 1.5rem;
+  .step-n {
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1.75rem;
     display: grid;
     place-items: center;
     border-radius: var(--radius-full);
     background: var(--color-primary-container);
     color: var(--color-on-primary-container);
     font-weight: 700;
-    font-size: var(--text-label-small-size);
+    font-size: var(--text-label-medium-size);
+  }
+
+  .verdict-steps p {
+    color: var(--color-on-surface-variant);
+    max-width: 60ch;
+  }
+
+  .verdict-steps strong {
+    color: var(--color-on-background);
+  }
+
+  .verdict-foot {
+    margin-top: var(--space-2xl);
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+    max-width: 64ch;
+  }
+
+  /* Quants */
+  .quants {
+    margin-top: var(--space-2xl);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-base);
+  }
+
+  .quant-card {
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+  }
+
+  .quant-name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 700;
+    font-size: var(--text-title-medium-size);
+    color: var(--color-on-background);
+  }
+
+  .quant-card p {
+    margin-top: var(--space-sm);
+    color: var(--color-on-surface-variant);
+    font-size: var(--text-body-medium-size);
+  }
+
+  @media (max-width: 52rem) {
+    .tiers,
+    .quants {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
