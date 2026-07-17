@@ -9,7 +9,7 @@ import sitemap from '@astrojs/sitemap';
 const onVercel = !!process.env.VERCEL;
 const site =
   process.env.SITE_URL ||
-  (onVercel ? 'https://dhruva-website.vercel.app' : 'https://anshrajput.github.io');
+  (onVercel ? 'https://dhruvaai.vercel.app' : 'https://anshrajput.github.io');
 const base = process.env.BASE_PATH || (onVercel ? '/' : '/dhruva-website');
 
 // https://astro.build/config
