@@ -73,6 +73,42 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
     </div>
   </section>
 
+  <!-- ===================== WHY / USE CASES ===================== -->
+  <section class="section-tight">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <p class="eyebrow">Why Dhruva</p>
+        <h2>Made for the moments cloud AI can't reach.</h2>
+        <p>
+          Every other AI app stops working the second the signal drops or the free tier runs out.
+          Dhruva doesn't — because the model is already on your phone.
+        </p>
+      </div>
+      <ul class="usecases reveal">
+        <li>
+          <StarGlyph class="uc-star" />
+          <h3>Offline, anywhere</h3>
+          <p>On a flight, a trek, or abroad with no data — your assistant still answers. Turn on airplane mode and it doesn't even notice.</p>
+        </li>
+        <li>
+          <StarGlyph class="uc-star" />
+          <h3>Private by physics</h3>
+          <p>Ask about a photo, a contract, a medical report — the file never leaves your device. Not encrypted-in-transit; simply never sent.</p>
+        </li>
+        <li>
+          <StarGlyph class="uc-star" />
+          <h3>No account, no bill</h3>
+          <p>No login, no subscription, no per-message cost. Download a model once and it's yours to run forever, as much as you like.</p>
+        </li>
+        <li>
+          <StarGlyph class="uc-star" />
+          <h3>Your documents, offline</h3>
+          <p>Chat with your own PDFs and notes with citations, analyze screenshots, talk hands-free — all on-device, all yours.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
   <!-- ===================== WHAT WE'RE BUILDING ===================== -->
   <section class="section-tight what-head">
     <div class="wrap">
@@ -303,6 +339,42 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 </Base>
 
 <style>
+  /* ---------- Use cases (Why Dhruva) ---------- */
+  .usecases {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .usecases > li {
+    border: 1px solid var(--color-surface-variant);
+    border-radius: var(--radius-lg, 16px);
+    background: color-mix(in oklab, var(--color-surface) 88%, transparent);
+    padding: 1.25rem 1.35rem;
+  }
+  .usecases :global(.uc-star) {
+    width: 22px;
+    height: 22px;
+    color: var(--color-primary);
+    margin-bottom: 0.6rem;
+  }
+  .usecases h3 {
+    font-size: 1.05rem;
+    margin: 0 0 0.35rem;
+    color: var(--color-on-surface);
+  }
+  .usecases p {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--color-on-surface-variant);
+  }
+  @media (max-width: 640px) {
+    .usecases { grid-template-columns: 1fr; }
+  }
+
   /* ---------- Hero ---------- */
   .hero {
     position: relative;
