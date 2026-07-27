@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://anshrajput.github.io/dhruva-website/sitemap-index.xml
+# Primary/canonical host is dhruvaai.vercel.app (mirrored on GitHub Pages,
+# which canonicals here). Keep this in sync with astro.config `site`.
+Sitemap: https://dhruvaai.vercel.app/sitemap-index.xml

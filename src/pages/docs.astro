@@ -56,18 +56,30 @@ const faq = [
     <div class="wrap page-head-inner">
       <span class="badge"><span class="dot"></span> Docs</span>
       <h1>Getting started &amp; FAQ</h1>
-      <p class="lede">How to build Dhruva from source today, and straight answers to the questions people ask most about offline inference, supported phones, models, and data.</p>
+      <p class="lede">How to get Dhruva on your phone, and straight answers to the questions people ask most about offline inference, supported phones, models, and data.</p>
     </div>
   </header>
 
   <section class="section">
     <div class="wrap prose">
-      <h2>Building from source</h2>
+      <h2 id="install">Install the app</h2>
       <p>
-        Dhruva is a Flutter app (Android + iOS). It's currently pre-alpha and under active
-        development — the fastest way to try it today is to build it yourself.
+        Dhruva is a real Android build, distributed to testers through <strong>Firebase App
+        Distribution</strong>. Once you're on the list you'll get an email with a link to install it
+        directly — no Play Store, no account.
       </p>
-      <p><strong>Prerequisites:</strong> the Flutter SDK, matching the version pinned in the repo.</p>
+      <ol>
+        <li>Request access on the <a href={repo} rel="noopener">GitHub project</a> (open an issue or watch the repo for the tester link).</li>
+        <li>Open the install email on your Android phone and follow the App Distribution prompt.</li>
+        <li>On first launch, pick the recommended model, let it download once, and start chatting — fully offline from then on.</li>
+      </ol>
+      <p>An iOS build is planned. Everything runs on-device; the only network call is the one-time model download.</p>
+
+      <h2>For contributors: build from source</h2>
+      <p>
+        Dhruva is a Flutter app (Android + iOS), open source under Apache-2.0. To hack on it you need
+        the Flutter SDK matching the version pinned in the repo.
+      </p>
       <pre><code>git clone {repo}.git
 cd dhruva-app/app
 flutter pub get

@@ -5,9 +5,10 @@ import StarGlyph from '../components/StarGlyph.astro';
 const appRepo = 'https://github.com/AnshRajput/dhruva-app';
 const siteRepo = 'https://github.com/AnshRajput/dhruva-website';
 
-// Sourced from orchestra/LOOP_LOG.md (loops 0–3 CLOSED) + TASKS.md roadmap,
+// Sourced from the app repo (CLAUDE.md status + orchestra/LOOP_LOG.md),
 // translated to public-friendly language. No internal jargon, no invented
-// progress — pre-alpha and honest about it.
+// progress. Reflects the real shipped state: an installable build is live via
+// Firebase App Distribution (v0.4.x), with image generation the current front.
 const shipped = [
   {
     loop: 'Loop 0',
@@ -17,68 +18,76 @@ const shipped = [
     points: ['Engine + architecture decided (ADR-001/002)', 'Design tokens + brand ratified', 'MVP scope frozen'],
   },
   {
-    loop: 'Loop 1',
-    title: 'Skeleton & CI',
+    loop: 'Loops 1–3',
+    title: 'Foundation: engine & model hub',
     blurb:
-      'Both repositories scaffolded, building, and gated by continuous integration from day one — and this website went live on its first deploy.',
-    points: ['Flutter app + strict lints', 'CI green on both repos', 'Website live on GitHub Pages'],
+      'Both repos scaffolded and CI-gated from day one; real quantized models loading and streaming on-device off the UI thread; and an in-app Hugging Face browser with honest device verdicts and resumable, integrity-checked downloads.',
+    points: ['GGUF loads + streams locally', 'Device-aware verdict chips', 'Resumable verified downloads'],
   },
   {
-    loop: 'Loop 2',
-    title: 'Engine online',
+    loop: 'Loop 4',
+    title: 'Chat — the MVP',
     blurb:
-      'Real quantized models now load and stream on-device through our own abstraction — off the UI thread, with a working cancel and a proven memory-safe path.',
-    points: ['GGUF loads + streams locally', 'Runs off the root isolate', '39 engine tests, real-model smoke'],
+      'The conversation itself: streaming replies with a live tokens-per-second readout, markdown and code, collapsible reasoning, and on-device history with search. Tagged the first milestone, v0.1.0-alpha.',
+    points: ['Streaming with live tok/s', 'Markdown, code, reasoning transparency', 'History, search, export — all local'],
   },
   {
-    loop: 'Loop 3',
-    title: 'Model hub',
+    loop: 'Loops 5–7',
+    title: 'Characters, voice & vision',
     blurb:
-      'Browse Hugging Face inside the app, get an honest device verdict before you download, and pull models over resumable, integrity-checked connections — or import your own.',
-    points: ['In-app Hugging Face browse', 'Device-aware verdict chips', 'Resumable verified downloads'],
+      'Personas with their own prompts and memory; a real voice conversation with turn-taking and on-device STT + TTS; and vision — ask questions about a photo or screenshot, image understanding that never leaves the phone.',
+    points: ['Custom personas with memory', 'On-device speech in and out', 'Photo & screenshot understanding'],
+  },
+  {
+    loop: 'Distribution',
+    title: 'Installable via Firebase',
+    blurb:
+      'Dhruva stopped being a repo you build yourself: real Android builds now ship to testers through Firebase App Distribution, with an A/B model playground alongside. The first thing you can actually install and run.',
+    points: ['Real builds to testers (Firebase)', 'A/B model playground shipped', 'Monotonic versioning, clean reinstalls'],
+  },
+  {
+    loop: 'v0.4.x',
+    title: 'Speed & first-run',
+    blurb:
+      'Found and fixed the reason it felt slow — inference was pinned to a single CPU thread — so replies now use all your cores. Onboarding no longer stalls, and it recommends a fast model so your first reply arrives quickly.',
+    points: ['Multi-threaded on-device inference', 'Onboarding no longer freezes', 'Fast model recommended first'],
   },
 ];
 
 const current = {
-  loop: 'Loop 4',
-  title: 'Chat experience',
+  loop: 'Loop 8',
+  title: 'Image generation',
   blurb:
-    'The conversation itself: streaming replies with a live tokens-per-second readout, markdown and code rendering, collapsible reasoning, on-device history with folders and search, and per-conversation settings. This is the last loop before the first tagged milestone.',
+    'On-device image generation with quantized Stable Diffusion — type a prompt and watch it denoise, every pixel staying local. The native path is proven and the feature is coming together now.',
   points: [
-    'Streaming with live tok/s',
-    'Markdown, code blocks, reasoning transparency',
-    'History, search, sampling controls, export',
+    'Quantized diffusion, fully offline',
+    'Live step-by-step denoise progress',
+    'Prompts never touch a server',
   ],
 };
 
 const ahead = [
-  { loop: 'Loop 5', title: 'Characters', note: 'Personas with their own prompts and memory' },
-  { loop: 'Loop 6', title: 'Voice', note: 'Turn-taking, interruption, on-device STT + TTS' },
-  { loop: 'Loop 7', title: 'Vision', note: 'Ask questions about photos and screenshots' },
-  { loop: 'Loop 8', title: 'Image generation', note: 'Quantized diffusion, entirely local' },
-  { loop: 'Loop 9', title: 'Documents', note: 'Retrieval-augmented chat over your PDFs' },
+  { loop: 'Loop 9', title: 'Documents', note: 'Retrieval-augmented chat over your own PDFs' },
   { loop: 'Loop 10', title: 'Toolbox', note: 'Local tools: alarms, notes, calculations' },
-  { loop: 'Loop 10.5', title: 'Playground + AI news', note: 'Compare models, tune sampling, opt-in digest' },
   { loop: 'Loop 11', title: 'Polish + arena', note: 'The craft pass across every surface' },
-  { loop: 'Loop 12', title: 'Website', note: 'This site, raised to a premium bar' },
-  { loop: 'Loop 13', title: 'Distribution', note: 'First installable build via Firebase App Distribution' },
   { loop: 'Loop 14', title: 'Hardening + handover', note: 'Edge cases, docs, and long-term care' },
 ];
 ---
 
 <Base
   title="Build in public — Dhruva AI"
-  description="The Dhruva AI build, loop by loop: what's shipped (engine, model hub), what's in progress (chat), and the road ahead to v0.1.0-alpha. Pre-alpha, open source, honest."
+  description="The Dhruva AI build, loop by loop: engine, model hub, chat, characters, voice and vision are shipped and installable via Firebase App Distribution; image generation is next. Open source, honest."
 >
   <header class="page-head">
     <div class="sky" aria-hidden="true"><div class="stars"></div></div>
     <div class="wrap page-head-inner">
-      <span class="badge"><span class="dot"></span> Built in public · pre-alpha</span>
+      <span class="badge"><span class="dot"></span> Built in public · installable now</span>
       <h1>The story so far</h1>
       <p class="lede">
-        Dhruva is built in the open, one loop at a time — plan, build, test, review, ship. Here's
-        exactly what's done, what's underway, and what's coming. No installable build exists yet;
-        the first one arrives at Loop 13 via Firebase App Distribution.
+        Dhruva is built in the open, one loop at a time — plan, build, test, review, ship. Chat,
+        characters, voice and vision are done and running on real phones through Firebase App
+        Distribution; image generation is coming together now. Here's exactly what's shipped, what's
+        underway, and what's next.
       </p>
     </div>
   </header>
@@ -139,8 +148,8 @@ const ahead = [
         <StarGlyph class="star-xl ms-star" />
         <div>
           <p class="eyebrow">Next milestone</p>
-          <h2>v0.1.0-alpha — the MVP gate</h2>
-          <p>Install, browse Hugging Face, download a recommended model, and have a genuinely pleasant offline chat. That's the bar the first tagged release has to clear.</p>
+          <h2>On-device image generation</h2>
+          <p>The MVP gate is cleared — install, download a model, and chat is real and shipping to testers. Next up: type a prompt and watch a quantized diffusion model paint it, every pixel staying on your phone.</p>
         </div>
       </div>
     </div>
