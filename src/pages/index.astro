@@ -22,7 +22,7 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
 <Base
   title="Dhruva AI — Your AI. Your phone. Nobody else's business."
-  description="Dhruva AI is an open-source app that runs AI models 100% on your device — offline chat, characters, vision, image generation, voice, and document chat. Zero telemetry, Apache-2.0."
+  description="Dhruva AI is an open-source app that runs AI models 100% on your device — offline chat, characters, vision, voice, and an A/B model playground. Zero telemetry, Apache-2.0."
 >
   <!-- ===================== HERO ===================== -->
   <section class="hero">
@@ -104,8 +104,8 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
         </li>
         <li>
           <StarGlyph class="uc-star" />
-          <h3>Your documents, offline</h3>
-          <p>Chat with your own PDFs and notes with citations, analyze screenshots, talk hands-free — all on-device, all yours.</p>
+          <h3>See it, say it, offline</h3>
+          <p>Ask about a screenshot or a photo, or talk hands-free while your hands are busy — vision and voice both run on-device, nothing uploaded. (Document chat is on the roadmap.)</p>
         </li>
       </ul>
     </div>
@@ -312,8 +312,9 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
         <p>
           Dhruva isn't a mockup. It's a real Android build you can install today through Firebase App
           Distribution — offline chat, characters, vision, and an A/B model playground, all running
-          100% on-device. The latest release made inference roughly <strong>nine times faster</strong>
-          on real hardware. Every step is shipped in the open, loop by loop.
+          <strong>100% on-device</strong>. The latest release moved inference off a single thread onto
+          all your phone's cores, so replies stream far more smoothly. Every step is shipped in the
+          open, loop by loop.
         </p>
         <a class="btn btn-ghost" href={`${base}build/`}>
           See the build timeline
@@ -323,7 +324,7 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
         </a>
       </div>
       <ul class="build-stats">
-        <li><span class="stat-num">9×</span><span class="stat-label">faster on-device inference</span></li>
+        <li><span class="stat-num">6</span><span class="stat-label">features shipped and running</span></li>
         <li><span class="stat-num">100%</span><span class="stat-label">runs on your device</span></li>
         <li><span class="stat-num">0</span><span class="stat-label">telemetry calls, ever</span></li>
       </ul>

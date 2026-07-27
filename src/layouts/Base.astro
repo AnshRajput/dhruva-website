@@ -39,7 +39,10 @@ const ogImageURL = new URL(`${base}${ogImage}`, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <!-- Browser chrome tint per scheme. Literal hex is required here (meta
-         can't read CSS vars); these mirror --color-background dark/light. -->
+         can't read CSS vars); these mirror --color-background dark/light.
+         Unconditional dark tag first = fallback for UAs that ignore `media`
+         (dark is the default theme), then the scheme-scoped overrides. -->
+    <meta name="theme-color" content="#0E1220" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0E1220" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F8FC" />
 
