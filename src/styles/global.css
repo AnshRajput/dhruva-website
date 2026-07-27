@@ -373,8 +373,11 @@ table {
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.035;
-  mix-blend-mode: overlay;
+  /* Plain low-opacity grain — NO mix-blend-mode: a blended fixed full-viewport
+     layer forces the compositor to re-blend the whole viewport every scroll
+     frame, which drops FPS on exactly the mid-range Android phones this
+     product targets. Near-identical look, far cheaper. */
+  opacity: 0.05;
 }
 
 @media (prefers-color-scheme: light) {
@@ -452,21 +455,21 @@ table {
 
 @media (prefers-reduced-motion: no-preference) {
   /* Gated on `.js` so content is never hidden when scripts don't run. */
+  /* opacity + translateY only — both composite on the GPU. A `filter: blur()`
+     transition here repaints each revealing block on a subpar CPU/GPU and
+     stutters on mid-range Android; the fade-up alone reads as premium. */
   :root.js .reveal {
     opacity: 0;
     transform: translateY(1.75rem);
-    filter: blur(6px);
     transition:
       opacity var(--duration-slower) var(--easing-decelerate),
-      transform var(--duration-slower) var(--easing-decelerate),
-      filter var(--duration-slower) var(--easing-decelerate);
+      transform var(--duration-slower) var(--easing-decelerate);
     transition-delay: var(--reveal-delay, 0ms);
   }
 
   :root.js .reveal.is-in {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 

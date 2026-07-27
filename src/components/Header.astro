@@ -65,9 +65,19 @@ function isActive(href: string) {
     position: sticky;
     top: 0;
     z-index: 40;
-    background: color-mix(in srgb, var(--color-background) 82%, transparent);
-    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--color-background) 88%, transparent);
+    backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--color-outline-variant);
+  }
+
+  /* Touch devices (the mid-range Android audience) skip the always-on
+     backdrop blur entirely — a near-opaque bar reads the same for far less
+     per-scroll GPU work. */
+  @media (hover: none) {
+    .site-header {
+      background: color-mix(in srgb, var(--color-background) 94%, transparent);
+      backdrop-filter: none;
+    }
   }
 
   .bar {

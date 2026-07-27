@@ -127,6 +127,7 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="01"
+    status="shipped"
     eyebrow="Offline chat"
     title="A chat that never asks for a signal"
     body="Talk to any model you've downloaded, fully offline. Streaming responses with a live tokens-per-second readout, code blocks, and collapsible reasoning so you can watch the model think."
@@ -141,6 +142,7 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="02"
+    status="shipped"
     eyebrow="Model hub"
     title="Any GGUF from Hugging Face, no walled garden"
     body="Browse and pull quantized models straight from the Hub. Before you spend the bandwidth, Dhruva gives an honest device verdict based on the file size against your phone's RAM."
@@ -156,6 +158,7 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="03"
+    status="shipped"
     eyebrow="Characters"
     title="Personas with their own mind and memory"
     body="Give a model a name, a voice, and a standing system prompt. Build a Socratic tutor, a dungeon master that keeps the campaign log, or a focused assistant — each with its own memory."
@@ -170,6 +173,7 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="04"
+    status="shipped"
     eyebrow="Vision"
     title="Point it at anything and ask"
     body="Show Dhruva a photo, a screenshot, a boarding pass. A vision model reads it and answers your questions about what's in the frame — image understanding that never leaves the phone."
@@ -185,6 +189,8 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="05"
+    status="planned"
+    statusLabel="Loop 8"
     eyebrow="Image generation"
     title="Make images without making a request"
     body="Quantized Stable Diffusion, generating on your phone's own compute. Type a prompt, watch it denoise step by step, and keep every pixel local — not one request leaves the device."
@@ -199,6 +205,7 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="06"
+    status="shipped"
     eyebrow="Voice"
     title="A real conversation, not a walkie-talkie"
     body="Speech in, speech out, with genuine turn-taking — the model listens, knows when you've finished, and can be interrupted mid-answer. Speech recognition and synthesis both run on-device."
@@ -214,6 +221,8 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="07"
+    status="planned"
+    statusLabel="Loop 9"
     eyebrow="Chat with documents"
     title="Drop in a PDF, ask it anything"
     body="Dhruva indexes your document with on-device embeddings, retrieves the relevant passages, and answers with a citation back to the page — retrieval-augmented, with nothing uploaded."
@@ -228,6 +237,8 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="08"
+    status="planned"
+    statusLabel="Loop 10"
     eyebrow="AI toolbox"
     title="Small local tools, reached for mid-chat"
     body="Alarms, notes, quick calculations — the model can call small on-device tools right inside a conversation. The intent is handled on your phone; no assistant server is ever in the loop."
@@ -243,13 +254,13 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
   <Pillar
     index="09"
+    status="shipped"
     eyebrow="Playground + AI news"
     title="Compare models. Tune them. Stay current."
     body="Run one prompt across two models side by side, tune the sampling live, and read an opt-in digest of what's new in on-device AI — fetched only when you ask, never in the background."
     points={[
       'A / B compare with live sampling controls',
       'Opt-in AI news, fetched on request',
-      'New in the roadmap (Loop 10.5)',
     ]}
   >
     <PhoneFrame label="Playground — A / B compare"><PlaygroundMock /></PhoneFrame>
@@ -426,7 +437,8 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
     position: absolute;
     inset: -20% 0 0 0;
     background-repeat: repeat;
-    will-change: transform;
+    /* No permanent will-change: it pins a compositor layer for the whole
+       session. The parallax transform is cheap enough without it. */
   }
 
   .stars-far {

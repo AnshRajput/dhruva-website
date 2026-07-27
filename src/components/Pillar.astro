@@ -12,8 +12,12 @@ interface Props {
   points: string[];
   /** When true, the visual sits on the left (odd pillars). */
   flip?: boolean;
+  /** Honest build status — 'shipped' is live in the app; 'planned' is on the roadmap. */
+  status?: 'shipped' | 'planned';
+  /** Optional roadmap marker for planned features, e.g. "Loop 8". */
+  statusLabel?: string;
 }
-const { index, eyebrow, title, body, points, flip = false } = Astro.props;
+const { index, eyebrow, title, body, points, flip = false, status, statusLabel } = Astro.props;
 ---
 
 <section class:list={['pillar', { flip }]}>
@@ -22,6 +26,12 @@ const { index, eyebrow, title, body, points, flip = false } = Astro.props;
       <div class="pillar-eyebrow">
         <span class="pillar-num">{index}</span>
         <span class="eyebrow">{eyebrow}</span>
+        {status && (
+          <span class:list={['status-chip', status]}>
+            <span class="status-dot" aria-hidden="true"></span>
+            {status === 'shipped' ? 'Shipped' : statusLabel ? `Planned · ${statusLabel}` : 'Planned'}
+          </span>
+        )}
       </div>
       <h3>{title}</h3>
       <p class="pillar-lede">{body}</p>
@@ -71,6 +81,40 @@ const { index, eyebrow, title, body, points, flip = false } = Astro.props;
     font-size: var(--text-title-medium-size);
     color: var(--color-primary);
     font-variant-numeric: tabular-nums;
+  }
+
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-left: auto;
+    padding: 3px var(--space-sm);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-outline-variant);
+    font-family: var(--font-family-ui);
+    font-weight: 700;
+    font-size: var(--text-label-small-size, 0.72rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+    white-space: nowrap;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-on-surface-variant);
+  }
+
+  .status-chip.shipped {
+    color: var(--color-success);
+    border-color: color-mix(in srgb, var(--color-success) 40%, transparent);
+  }
+
+  .status-chip.shipped .status-dot {
+    background: var(--color-success);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-success) 22%, transparent);
   }
 
   .pillar h3 {

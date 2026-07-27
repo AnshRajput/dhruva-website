@@ -38,7 +38,10 @@ const ogImageURL = new URL(`${base}${ogImage}`, Astro.site);
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0E1220" />
+    <!-- Browser chrome tint per scheme. Literal hex is required here (meta
+         can't read CSS vars); these mirror --color-background dark/light. -->
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0E1220" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F7F8FC" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -69,11 +72,16 @@ const ogImageURL = new URL(`${base}${ogImage}`, Astro.site);
     <CreditBar />
 
     <script>
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
       const reveals = document.querySelectorAll('.reveal');
+      // Fail OPEN: `.reveal` is hidden (opacity 0) by CSS gated on `.js`. If
+      // anything below throws (no IntersectionObserver, CSP, a bundling error)
+      // the page would stay blank — so any failure reveals everything.
+      const revealAll = () => reveals.forEach((el) => el.classList.add('is-in'));
+      try {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-      if (reduce.matches) {
-        reveals.forEach((el) => el.classList.add('is-in'));
+      if (reduce.matches || typeof IntersectionObserver === 'undefined') {
+        revealAll();
       } else {
         const io = new IntersectionObserver(
           (entries) => {
@@ -111,6 +119,9 @@ const ogImageURL = new URL(`${base}${ogImage}`, Astro.site);
             { passive: true },
           );
         }
+      }
+      } catch (_) {
+        revealAll();
       }
     </script>
   </body>
