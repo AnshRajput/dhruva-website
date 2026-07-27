@@ -55,6 +55,11 @@ const ogImageURL = new URL(`${base}${ogImage}`, Astro.site);
     <meta name="twitter:image" content={ogImageURL} />
   </head>
   <body>
+    <div class="cosmos" aria-hidden="true">
+      <div class="cosmos-glow"></div>
+      <div class="cosmos-grid"></div>
+      <div class="cosmos-stars"></div>
+    </div>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
     <main id="main">

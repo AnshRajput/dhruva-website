@@ -38,6 +38,8 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
 
       <div class="hero-mark">
         <div class="mark-glow" aria-hidden="true"></div>
+        <div class="mark-orbit" aria-hidden="true"></div>
+        <div class="mark-orbit mark-orbit-2" aria-hidden="true"></div>
         <Logo size={92} />
       </div>
 
@@ -295,11 +297,12 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
     <div class="wrap build-inner reveal">
       <div class="build-copy">
         <p class="eyebrow">Built in public</p>
-        <h2>Watch it get made, loop by loop</h2>
+        <h2>Real, on your phone, right now</h2>
         <p>
-          Dhruva is pre-alpha and shipped in the open. The engine is online, the model hub is live,
-          and the chat experience is landing now. There's no installable build yet — it's coming via
-          Firebase App Distribution — but the whole story so far is on the timeline.
+          Dhruva isn't a mockup. It's a real Android build you can install today through Firebase App
+          Distribution — offline chat, characters, vision, and an A/B model playground, all running
+          100% on-device. The latest release made inference roughly <strong>nine times faster</strong>
+          on real hardware. Every step is shipped in the open, loop by loop.
         </p>
         <a class="btn btn-ghost" href={`${base}build/`}>
           See the build timeline
@@ -309,9 +312,9 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
         </a>
       </div>
       <ul class="build-stats">
-        <li><span class="stat-num">4</span><span class="stat-label">loops shipped</span></li>
-        <li><span class="stat-num">100%</span><span class="stat-label">on-device inference</span></li>
-        <li><span class="stat-num">0</span><span class="stat-label">telemetry calls</span></li>
+        <li><span class="stat-num">9×</span><span class="stat-label">faster on-device inference</span></li>
+        <li><span class="stat-num">100%</span><span class="stat-label">runs on your device</span></li>
+        <li><span class="stat-num">0</span><span class="stat-label">telemetry calls, ever</span></li>
       </ul>
     </div>
   </section>
@@ -349,10 +352,26 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
     gap: 1rem;
   }
   .usecases > li {
-    border: 1px solid var(--color-surface-variant);
     border-radius: var(--radius-lg, 16px);
-    background: color-mix(in oklab, var(--color-surface) 88%, transparent);
-    padding: 1.25rem 1.35rem;
+    padding: 1.35rem 1.45rem;
+    background:
+      linear-gradient(color-mix(in srgb, var(--color-surface) 78%, transparent), color-mix(in srgb, var(--color-surface) 60%, transparent));
+    border: 1px solid var(--color-outline-variant);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-on-surface) 10%, transparent),
+      var(--elevation-1-shadow);
+    transition:
+      transform var(--duration-moderate) var(--easing-emphasized),
+      border-color var(--duration-moderate) var(--easing-standard),
+      box-shadow var(--duration-moderate) var(--easing-standard);
+  }
+
+  .usecases > li:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--color-primary) 30%, var(--color-outline-variant));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-on-surface) 14%, transparent),
+      var(--elevation-3-shadow);
   }
   .usecases :global(.uc-star) {
     width: 22px;
@@ -477,6 +496,57 @@ const proof = ['Zero telemetry', 'Apache-2.0', 'Runs offline', 'Any GGUF'];
     background: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 34%, transparent), transparent 62%);
     filter: blur(14px);
     z-index: -1;
+  }
+
+  /* Orbital rings — the pole star with worlds turning around it. Rotation is
+     transform-only; a single dot rides each ring so the motion reads. */
+  .mark-orbit {
+    position: absolute;
+    width: 176px;
+    height: 176px;
+    border-radius: var(--radius-full);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent);
+    z-index: -1;
+    animation: mark-spin 18s linear infinite;
+  }
+
+  .mark-orbit::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--color-primary);
+    box-shadow: 0 0 8px 1px color-mix(in srgb, var(--color-primary) 70%, transparent);
+    transform: translateX(-50%);
+  }
+
+  .mark-orbit-2 {
+    width: 236px;
+    height: 236px;
+    border-color: color-mix(in srgb, var(--color-secondary) 18%, transparent);
+    animation-duration: 30s;
+    animation-direction: reverse;
+  }
+
+  .mark-orbit-2::after {
+    background: var(--color-secondary);
+    box-shadow: 0 0 8px 1px color-mix(in srgb, var(--color-secondary) 60%, transparent);
+  }
+
+  @keyframes mark-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mark-orbit { animation: none; }
+  }
+
+  @media (max-width: 560px) {
+    .mark-orbit { width: 150px; height: 150px; }
+    .mark-orbit-2 { width: 200px; height: 200px; }
   }
 
   .hero h1 {

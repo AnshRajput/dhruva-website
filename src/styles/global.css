@@ -308,6 +308,145 @@ table {
 }
 
 /* ============================================================
+   Cosmos — site-wide deep-space field (fixed, GPU-safe, behind all
+   content). The pole star is the brand; the whole site should feel like it
+   floats in the sky Dhruva is named for, not just the hero. Every colour is
+   a token. Kept subtle so text contrast (a11y/Lighthouse) is untouched.
+   ============================================================ */
+
+.cosmos {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+/* Slow-drifting mesh glow — gold overhead, midnight-blue below. */
+.cosmos-glow {
+  position: absolute;
+  inset: -25%;
+  background:
+    radial-gradient(38% 44% at 20% 12%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 68%),
+    radial-gradient(46% 50% at 82% 20%, color-mix(in srgb, var(--color-secondary) 14%, transparent), transparent 70%),
+    radial-gradient(50% 55% at 50% 108%, color-mix(in srgb, var(--color-secondary) 10%, transparent), transparent 72%);
+  filter: blur(20px);
+  animation: cosmos-drift 32s var(--easing-standard) infinite alternate;
+}
+
+/* Faint blueprint grid — the "engineered" side of the brand. */
+.cosmos-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--color-outline) 26%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-outline) 26%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(120% 80% at 50% 0%, #000 0%, transparent 72%);
+  opacity: 0.5;
+}
+
+/* Static far starfield (fixed — no per-scroll work). */
+.cosmos-stars {
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+  background-image:
+    radial-gradient(1px 1px at 8% 12%, var(--color-midnight-200) 99%, transparent),
+    radial-gradient(1px 1px at 24% 38%, var(--color-midnight-300) 99%, transparent),
+    radial-gradient(1.4px 1.4px at 41% 8%, var(--color-star-gold-200) 99%, transparent),
+    radial-gradient(1px 1px at 58% 52%, var(--color-midnight-200) 99%, transparent),
+    radial-gradient(1px 1px at 71% 22%, var(--color-midnight-300) 99%, transparent),
+    radial-gradient(1.4px 1.4px at 86% 40%, var(--color-star-gold-100) 99%, transparent),
+    radial-gradient(1px 1px at 92% 74%, var(--color-midnight-200) 99%, transparent),
+    radial-gradient(1px 1px at 14% 82%, var(--color-midnight-300) 99%, transparent),
+    radial-gradient(1px 1px at 47% 88%, var(--color-midnight-200) 99%, transparent),
+    radial-gradient(1.4px 1.4px at 66% 92%, var(--color-star-gold-200) 99%, transparent);
+  background-size: 100% 100%;
+  animation: cosmos-twinkle var(--duration-pulse-slow) var(--easing-standard) infinite alternate;
+}
+
+/* Film grain — fixed pseudo-element only, per motion guardrails. */
+.cosmos::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+
+@media (prefers-color-scheme: light) {
+  .cosmos-glow { opacity: 0.55; }
+  .cosmos-grid { opacity: 0.28; }
+  .cosmos-stars { opacity: 0.22; }
+  .cosmos::after { opacity: 0.02; }
+}
+
+@keyframes cosmos-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(0, -3%, 0) scale(1.08); }
+}
+
+@keyframes cosmos-twinkle {
+  from { opacity: 0.42; }
+  to { opacity: 0.66; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmos-glow,
+  .cosmos-stars { animation: none; }
+}
+
+/* ============================================================
+   Glass panel — a hairline-lit surface that reads as machined glass over
+   the cosmos. Complements .bezel/.lift; used for floating card clusters.
+   ============================================================ */
+
+.glass {
+  position: relative;
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(color-mix(in srgb, var(--color-surface) 74%, transparent), color-mix(in srgb, var(--color-surface) 62%, transparent));
+  border: 1px solid var(--color-outline-variant);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-on-surface) 10%, transparent),
+    var(--elevation-2-shadow);
+  transition:
+    transform var(--duration-moderate) var(--easing-emphasized),
+    border-color var(--duration-moderate) var(--easing-standard),
+    box-shadow var(--duration-moderate) var(--easing-standard);
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(140deg, color-mix(in srgb, var(--color-primary) 40%, transparent), transparent 42%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--duration-moderate) var(--easing-standard);
+  pointer-events: none;
+}
+
+.glass:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--color-primary) 34%, var(--color-outline-variant));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-on-surface) 14%, transparent),
+    var(--elevation-4-shadow);
+}
+
+.glass:hover::before {
+  opacity: 1;
+}
+
+/* ============================================================
    Scroll-reveal (opt-in, motion-safe)
    ============================================================ */
 
@@ -315,16 +454,19 @@ table {
   /* Gated on `.js` so content is never hidden when scripts don't run. */
   :root.js .reveal {
     opacity: 0;
-    transform: translateY(1.5rem);
+    transform: translateY(1.75rem);
+    filter: blur(6px);
     transition:
       opacity var(--duration-slower) var(--easing-decelerate),
-      transform var(--duration-slower) var(--easing-decelerate);
+      transform var(--duration-slower) var(--easing-decelerate),
+      filter var(--duration-slower) var(--easing-decelerate);
     transition-delay: var(--reveal-delay, 0ms);
   }
 
   :root.js .reveal.is-in {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }
 

@@ -35,6 +35,8 @@
   --duration-moderate: 300ms;
   --duration-slow: 450ms;
   --duration-slower: 600ms;
+  --duration-pulse-medium: 900ms;
+  --duration-pulse-slow: 1400ms;
   --easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --easing-decelerate: cubic-bezier(0.16, 1, 0.3, 1);
   --easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
