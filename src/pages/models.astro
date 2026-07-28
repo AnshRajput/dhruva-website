@@ -22,7 +22,7 @@ const ramClass = (floor: string) =>
 
 <Base
   title="Supported models — Dhruva AI"
-  description="Verified starter models for Dhruva AI: repo IDs, sizes, and RAM guidance for on-device GGUF chat, vision, and embedding models — plus how device verdicts and quantization work."
+  description="Starter GGUF models for Dhruva AI: verified repo IDs, sizes, and RAM guidance for on-device chat, vision, and embedding models — plus how device verdicts and quantization work."
 >
   <header class="page-head">
     <div class="wrap page-head-inner">
@@ -46,7 +46,7 @@ const ramClass = (floor: string) =>
       <div class="tiers reveal">
         {
           tiers.map((t) => (
-            <article class="tier-card glass">
+            <article class="tier-card lift">
               <div class="tier-top">
                 <span class="tier-class">{t.klass}</span>
                 <span class="tier-floor">{t.floor}+ RAM</span>
@@ -171,7 +171,7 @@ const ramClass = (floor: string) =>
       <div class="quants reveal">
         {
           quants.map((q) => (
-            <article class="quant-card glass">
+            <article class="quant-card lift">
               <div class="quant-name"><StarGlyph class="star-sm" /> {q.name}</div>
               <p>{q.blurb}</p>
             </article>
@@ -186,9 +186,7 @@ const ramClass = (floor: string) =>
   .page-head {
     padding-block: clamp(var(--space-5xl), 8vw, calc(var(--space-6xl) + var(--space-2xl))) var(--space-3xl);
     border-bottom: 1px solid var(--color-outline-variant);
-    /* Semi-transparent so the site-wide cosmos (stars/grid/glow) shows through,
-       matching the homepage — an opaque fill made this flagship page read flat. */
-    background: radial-gradient(110% 90% at 50% -10%, color-mix(in srgb, var(--color-surface) 62%, transparent), transparent 62%);
+    background: radial-gradient(110% 90% at 50% -10%, var(--color-surface), var(--color-background) 62%);
   }
 
   .page-head h1 {
