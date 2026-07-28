@@ -30,8 +30,8 @@ const ramClass = (floor: string) =>
       <h1>Bring any GGUF. Start with these.</h1>
       <p class="lede">
         Dhruva loads any quantized GGUF you download from Hugging Face — there's no curated-only
-        walled garden. Below is the starter catalog: models verified to run well on-device, with
-        real repo IDs and honest RAM guidance.
+        walled garden. Below is the starter catalog: known-good starting points with real, verified
+        repo IDs and honest RAM guidance for your phone.
       </p>
     </div>
   </header>
@@ -46,7 +46,7 @@ const ramClass = (floor: string) =>
       <div class="tiers reveal">
         {
           tiers.map((t) => (
-            <article class="tier-card lift">
+            <article class="tier-card glass">
               <div class="tier-top">
                 <span class="tier-class">{t.klass}</span>
                 <span class="tier-floor">{t.floor}+ RAM</span>
@@ -171,7 +171,7 @@ const ramClass = (floor: string) =>
       <div class="quants reveal">
         {
           quants.map((q) => (
-            <article class="quant-card lift">
+            <article class="quant-card glass">
               <div class="quant-name"><StarGlyph class="star-sm" /> {q.name}</div>
               <p>{q.blurb}</p>
             </article>
@@ -186,7 +186,9 @@ const ramClass = (floor: string) =>
   .page-head {
     padding-block: clamp(var(--space-5xl), 8vw, calc(var(--space-6xl) + var(--space-2xl))) var(--space-3xl);
     border-bottom: 1px solid var(--color-outline-variant);
-    background: radial-gradient(110% 90% at 50% -10%, var(--color-surface), var(--color-background) 62%);
+    /* Semi-transparent so the site-wide cosmos (stars/grid/glow) shows through,
+       matching the homepage — an opaque fill made this flagship page read flat. */
+    background: radial-gradient(110% 90% at 50% -10%, color-mix(in srgb, var(--color-surface) 62%, transparent), transparent 62%);
   }
 
   .page-head h1 {
