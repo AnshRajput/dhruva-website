@@ -5,16 +5,15 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { generateTokensCss } from './tokens/generate-css.mjs';
-import { TOKENS_SOURCE_PATH, TOKENS_OUTPUT_PATH } from './tokens/config.mjs';
+import { loadTokensJson, TOKENS_OUTPUT_PATH, TOKENS_SOURCE_DESC } from './tokens/config.mjs';
 
 const hash = (s) => createHash('sha256').update(s).digest('hex');
 
 let tokens;
 try {
-  tokens = JSON.parse(readFileSync(TOKENS_SOURCE_PATH, 'utf8'));
+  tokens = await loadTokensJson();
 } catch (err) {
-  console.error(`Could not read design tokens at ${TOKENS_SOURCE_PATH}`);
-  console.error(err.message);
+  console.error(`Could not load design tokens from ${TOKENS_SOURCE_DESC}: ${err.message}`);
   process.exit(1);
 }
 
